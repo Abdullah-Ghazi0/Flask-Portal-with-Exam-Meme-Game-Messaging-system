@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+<h1>{{ name }}, Welcome to Dashboard!</h1>
+<button>
+  <a href="/exam">Start Exam</a>
+</button>
+<br>
+<button>
+  <a href="/result">View Result</a>
+</button>
+<button>
+<a href="/settings">Setting</a>
+</button>
+<form action="/logout" method="POST">
+    <button type="submit">Logout</button>
+</form>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% endblock %}

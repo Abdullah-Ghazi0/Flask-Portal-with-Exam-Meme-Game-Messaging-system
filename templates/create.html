@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+{% block title %}
+Registration
+{% endblock %}
+
+{% block content %}
+<h1>Create Exam Page!</h1>
+<form action="/create-exam" method="POST">
+    <label for="question">Question:</label>
+    <input type="text" name="question" placeholder="Enter a Question" required>
+    <br>
+    <label for="answer">Correct Answer:</label>
+    <select name="answer">
+        <option value="True">True</option>
+        <option value="">False</option>
+    </select>
+    <br><br>
+    <button type="submit">Submit</button>
+    <br>
+</form>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% endblock %}

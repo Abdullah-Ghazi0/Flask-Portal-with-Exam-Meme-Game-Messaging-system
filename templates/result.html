@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+{% block title %}
+Result
+{% endblock %}
+
+{% block content %}
+<h1>Result page!</h1>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{{ msg }}{% if score %}{{ score }}{% endif %}
+{% endblock %}

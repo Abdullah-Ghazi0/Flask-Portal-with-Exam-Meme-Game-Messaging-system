@@ -1,0 +1,43 @@
+{% extends 'base.html'%}
+{% block title %}
+Settings
+{% endblock %}
+
+{% block content %}
+<br>
+<h2>Change Password</h2>
+<form action="/settings" method="POST">
+    <label for="old_pass">Current Password:</label>
+    &nbsp;&nbsp;&nbsp;
+    <input type="password" name="old_pass" placeholder="Enter Current Password" required>
+    <br>
+    <label for="new_pass">New Password:</label>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="password" name="new_pass" placeholder="Enter New Password" required>
+    <br>
+    <label for="confirm_pass">Confirm Passoword:</label>
+    <input type="password" name="conf_pass" placeholder="Confirm Password" required>
+    <br>
+    <br>
+    <button type="submit">Change Password</button>
+</form>
+<br>
+<br>
+<h2>Delete Account</h2>
+<br>
+<form action="/delete" method="POST">
+    <button type="submit" onclick="return confirm('Are you sure? This will permanently delete your account.')">
+        Delete my Account
+    </button>
+</form>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<h1>Welcome to Exam!</h1>
+<form action="/result" method="POST">
+  {% for q in questions %}
+    <p>{{ loop.index }}. {{ q.q_text }}</p>
+    <label>
+      <input type="radio" name="{{ q.id }}" value="True" required> True
+    </label>
+    <label>
+      <input type="radio" name="{{ q.id }}" value="False"> False
+    </label>
+<hr>
+{% endfor %}
+<button type="submit">Submit Exam</button>
+</form>
+
+{% endblock %}
