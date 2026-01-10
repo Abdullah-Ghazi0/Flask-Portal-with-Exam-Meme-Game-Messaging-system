@@ -41,7 +41,7 @@ This project is intended for learning purposes and demonstrates basic authentica
 
 ## Known Issues
 
-This is a beginner project and may contain bugs
+This is a beginner project and may contain bugs<br>
 No CSS styling is used (UI is very basic)
 
 
