@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, session, redirect, flash, url_for
+from flask import Flask, render_template, request, session, redirect, flash, url_for, jsonify
 from models import db, Users, Questions, Results
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import func
+from simple_api import convertor
 
 app = Flask(__name__)
 
@@ -9,6 +10,7 @@ app.secret_key = "supersecretkey"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.json.sort_keys = False
 
 db.init_app(app)
 
@@ -180,6 +182,10 @@ def result():
             return render_template("result.html", msg= msg)
     else:
         return "<h1> You Don't have access to this page"
+    
+@app.route("/data")
+def data():
+    return jsonify(convertor())
 
 
 if __name__ == "__main__":
