@@ -76,6 +76,7 @@ def dash():
 @app.route("/logout", methods=["POST"])
 def logout():
     session.pop("user_id")
+    flash("Logout Successful!")
     return redirect(url_for('home'))
 
 @app.route("/settings", methods=["GET","POST"])
