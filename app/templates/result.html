@@ -7,9 +7,9 @@ Result
 <h1>Result page!</h1>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <ul class=flashes>
+    <ul>
     {% for message in messages %}
-      <li>{{ message }}</li>
+      {{ message }}
     {% endfor %}
     </ul>
   {% endif %}

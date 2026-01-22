@@ -6,7 +6,7 @@ def create_app():
 
     app.secret_key = "supersecretkey"
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///main.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.json.sort_keys = False
 

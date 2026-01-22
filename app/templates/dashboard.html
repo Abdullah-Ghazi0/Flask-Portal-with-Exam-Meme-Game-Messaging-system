@@ -10,12 +10,17 @@ Dashboard
 </button>
 <br>
 <button>
+  <a href="{{ url_for('exam.result') }}">View Result</a>
+</button>
+<br><br>
+<button>
   <a href="{{ url_for('meme.show_meme') }}">Show me a Meme</a>
 </button>
 <br>
 <button>
-  <a href="{{ url_for('exam.result') }}">View Result</a>
+  <a href="{{ url_for('game.game_play') }}">Play Hangman</a>
 </button>
+<br><br>
 <button>
 <a href="/settings">Setting</a>
 </button>
@@ -24,9 +29,9 @@ Dashboard
 </form>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <ul class=flashes>
+    <ul>
     {% for message in messages %}
-      <li>{{ message }}</li>
+      {{ message }}
     {% endfor %}
     </ul>
   {% endif %}

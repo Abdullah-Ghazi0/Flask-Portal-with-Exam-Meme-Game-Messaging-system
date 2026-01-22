@@ -4,5 +4,29 @@ Hangman
 {% endblock %}
 
 {% block content %}
-This is game page!
+<br><br>
+HANGMAN!
+<br>
+{% with messages = get_flashed_messages() %}
+ {% if messages %}
+  {% for message in messages %}
+   <h4>{{ message }}</h4>
+  {% endfor %}
+ {% endif %}
+{% endwith %}
+<br>
+ <h1>{{ word_shown }}</h1>
+<br>
+<form action="{{ url_for('game.guessing') }}" method="POST">
+    <label for="Letter:"></label>
+    <input type="text", maxlength="1" name="char" required autofocus autocomplete="off">
+    <button type="submit">Guess</button>
+</form>
+ <h2>Lives:{{ lives }}</h2>
+<br>
+    <img src="{{ url_for('static', filename='images/state' + mistakes|string + '.png') }}" alt="Hangman">
+    <br>
+    <button>
+        <a href="{{ url_for('game.again') }}">Play Again</a>
+    </button>
 {% endblock %}
