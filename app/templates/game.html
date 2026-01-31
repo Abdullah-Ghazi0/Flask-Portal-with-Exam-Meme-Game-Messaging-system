@@ -23,8 +23,7 @@ Hangman
     <button type="submit" class="btn btn-dark">Guess</button>
 </form>
  <h5>Lives:{{ lives }}</h5>
-<br>
-    <img src="{{ url_for('static', filename='images/state' + mistakes|string + '.png') }}" alt="Hangman">
+    <img src="{{ url_for('static', filename='images/state' + mistakes|string + '.png') }}" alt="Hangman" height="450px">
     <br>
     <button style="border: #ffffff; background-color: #ffffff;">
         <a href="{{ url_for('game.again') }}" class="btn btn-success">Play Again</a>

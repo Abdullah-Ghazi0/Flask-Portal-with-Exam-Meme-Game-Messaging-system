@@ -4,8 +4,7 @@ Message
 {% endblock %}
 
 {% block content %}
-<button> <a href="{{ url_for('message.inbox') }}">Inbox</a> </button>
-<br><br>
+<br>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul>
@@ -19,7 +18,15 @@ Message
 <h4>Send Message</h4> 
 <form action="{{ url_for('message.msg_send') }}" method="POST">
     <label for="reciever">Send To:</label>
-    <input type="search" name="reciever" placeholder="Enter Username" required>
+    <input list="user-list" name="reciever" placeholder="Enter a username..." required autocomplete="off">
+
+    <datalist id="user-list">
+      {% for user in allUsers %}
+        <option value="{{ user }}">
+      {% endfor %}
+
+    </datalist>
+
     <br><br>
     <label for="msg_content" style="vertical-align: top;">Message:</label>
     <textarea name="msg_content" id="msg_content" rows="6" cols="50" placeholder="Enter your message..."></textarea>

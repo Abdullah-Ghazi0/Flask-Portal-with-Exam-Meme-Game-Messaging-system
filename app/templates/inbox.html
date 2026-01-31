@@ -7,11 +7,24 @@ Inbox
 <button> <a href="{{ url_for('message.msg_send') }}">New Message</a> </button>
 <hr>
 <br>
-{% for msg in all_msg %}
-  From: {{ msg.sender.username }}-->&nbsp;&nbsp;&nbsp;{{ msg.content }}
-  <hr>
-{% endfor %}
-
+<div class="container">
+  <table>
+    <colgroup>
+    <col style="width: 950px">
+    </colgroup>
+    {% for msg in all_msg %}
+    <tr>
+      <td>
+        {% if msg.sender.id == id %}
+          <div style="text-align: right;">To: {{ msg.reciever.username }} &nbsp; |&nbsp;&nbsp;&nbsp;{{ msg.content }}</div>
+        {% else %}
+          <div style="text-align: left;">From: {{ msg.sender.username }} &nbsp; |&nbsp;&nbsp;&nbsp;{{ msg.content }}</div>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul>
