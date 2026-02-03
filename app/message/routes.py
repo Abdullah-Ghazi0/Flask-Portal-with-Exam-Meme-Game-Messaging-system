@@ -13,7 +13,6 @@ def msg_send():
     
     users_list = Users.query.filter(Users.id != session["user_id"], Users.username!="admin").all()
     unames = [user.username for user in users_list ]
-    print(unames)
 
     if request.method == "POST":
         rcvr = request.form.get("reciever")
@@ -37,8 +36,50 @@ def inbox():
     my_id = session["user_id"]
     
     all_msg = Messages.query.filter(or_(Messages.r_id==my_id, Messages.s_id==my_id)).order_by(Messages.time).all()
+
+    convos = set()
+
+    for msg in all_msg:
+        if msg.s_id != my_id:
+            convos.add(msg.s_id)
+        if msg.r_id != my_id:
+            convos.add(msg.r_id)
+
+    msged_users = Users.query.filter(Users.id.in_(convos)).all()
+
     if all_msg:    
-        return render_template("inbox.html", all_msg=all_msg, id=my_id)
+        return render_template("inbox.html", id=my_id, msged_users=msged_users)
     else:
         flash("No Messages yet!")
         return render_template("inbox.html")
+    
+
+@msg_bp.route("/inbox/chat/<int:others_id>")
+def chats(others_id):
+    if "user_id" not in session:
+        flash("You need to login first!")
+        return redirect(url_for("auth.login"))
+    
+    my_id = session["user_id"]
+
+    others_info = Users.query.get(others_id)
+    others_name = others_info.username
+
+
+    our_msgs = Messages.query.filter(or_((Messages.r_id==others_id) & (Messages.s_id==my_id),
+                                          (Messages.s_id==others_id) & (Messages.r_id==my_id))
+                                          ).order_by(Messages.time.asc()).all()
+    
+    all_msg = Messages.query.filter(or_(Messages.r_id==my_id, Messages.s_id==my_id)).order_by(Messages.time).all()
+    
+    convos = set()
+
+    for msg in all_msg:
+        if msg.s_id != my_id:
+            convos.add(msg.s_id)
+        if msg.r_id != my_id:
+            convos.add(msg.r_id)
+
+    msged_users = Users.query.filter(Users.id.in_(convos)).all()
+    
+    return render_template("inbox.html", all_msg=our_msgs, id=my_id, msged_users=msged_users, others_name=others_name)

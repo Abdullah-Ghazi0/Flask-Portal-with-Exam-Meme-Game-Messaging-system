@@ -1,7 +1,124 @@
+html, body {
+  height: 100%;
+}
+
 .navbar_style {
     background-color: #29292b;
      margin-top: -25px;
      padding: 8px; color: white;
      --bs-nav-link-color: white;
      --bs-nav-link-hover-color: #8d8d8d;
+}
+
+.inbox {
+    background-color: #202529;
+    border-radius: 10px;
+    height: calc(100vh - 180px);          /* or calc(100vh - headerHeight) */
+    color: white;
+    overflow-y: auto;
+}
+
+.edger {
+    border-right: 1px solid #3a3a3a;
+    margin-right: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-left: 0%;
+    padding-right: 0%;
+}
+
+.head-name {
+    margin-top: 12px;
+    margin-bottom: -3px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.button_styler {
+    border: #ffffff;
+    background-color: #ffffff;
+    text-align: left;
+}
+
+.send-color {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #4a5df9;
+    --bs-btn-border-color: #4a5df9;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #5f72fd;
+    --bs-btn-hover-border-color: #5f72fd;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #4a5df9;
+    --bs-btn-active-border-color: #4a5df9;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #4a5df9;
+    --bs-btn-disabled-border-color: #4a5df9;
+}
+
+.link-color {
+    text-decoration: none;
+    color: white;
+}
+
+.tabs-style {
+    background-color: #202529;
+    transition: background-color 0.3s ease;
+    padding: 15px;
+    transition: padding 0.2s ease;
+    margin-top: -17px;
+    margin-bottom: -17px;
+}
+
+.tabs-style.active {
+    background-color: #333333;
+}
+
+.tabs-style:hover {
+    background-color: #383f46;
+    padding: 17px;
+}
+
+.msg {
+    display: flex;
+    margin: 5px 0;
+}
+
+.msg.my {
+    justify-content: flex-end;
+}
+
+.msg.other {
+    justify-content: flex-start;
+}
+
+.other-bubble {
+    background-color: #008ad8;
+    display: flex;
+    justify-content: flex-start;
+    width: fit-content;
+    margin: 2px;
+    padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 15px 15px 15px 0;
+    max-width: 60%;
+}
+
+.my-bubble {
+    background-color: #3e4144;
+    display: flex;
+    justify-content: flex-end;
+    width: fit-content;
+    margin: 2px;
+    padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 15px 15px 0 15px;
+    max-width: 60%;
+}
+
+.msg-scroll {
+    
 }

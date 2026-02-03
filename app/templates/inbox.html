@@ -4,27 +4,51 @@ Inbox
 {% endblock %}
 
 {% block content %}
-<button> <a href="{{ url_for('message.msg_send') }}">New Message</a> </button>
+<button class="button_styler"> <a href="{{ url_for('message.msg_send') }}" class="btn btn-primary send-color">New Message</a> </button>
 <hr>
 <br>
-<div class="container">
-  <table>
-    <colgroup>
-    <col style="width: 950px">
-    </colgroup>
-    {% for msg in all_msg %}
-    <tr>
-      <td>
-        {% if msg.sender.id == id %}
-          <div style="text-align: right;">To: {{ msg.reciever.username }} &nbsp; |&nbsp;&nbsp;&nbsp;{{ msg.content }}</div>
-        {% else %}
-          <div style="text-align: left;">From: {{ msg.sender.username }} &nbsp; |&nbsp;&nbsp;&nbsp;{{ msg.content }}</div>
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
+<div class="container inbox">
+  <div class="row">
+    <div class="col-md-3 edger">
+      <hr class="line-changer">
+      {% for user in msged_users %}
+      <a class="link-color" href="{{ url_for('message.chats', others_id=user.id) }}">
+        <div class="tabs-style {% if request.endpoint == 'message.chats' and request.view_args.others_id == user.id %} active {% endif %}">{{ user.username }}</div>
+      </a>
+      <hr>
+      {% endfor %}</div>
+
+    <div class="col-md-8 msg-scroll">
+      {% if all_msg %}
+        <table>
+        <colgroup>
+        <col style="width: 950px">
+        </colgroup>
+        <div class="head-name">{{ others_name }}</div> <hr> 
+          {% for msg in all_msg %}
+
+          <tr>
+            <td>
+              {% if msg.sender.id == id %}
+              <div class="msg my">
+                <div class="my-bubble">{{ msg.content }}</div>
+              </div>
+              {% else %}
+              <div class="msg other">
+                <div class="other-bubble">{{ msg.content }}</div>
+              </div>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      {% endif %}
+    </div>
+  </div>
 </div>
+
+
+
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul>
