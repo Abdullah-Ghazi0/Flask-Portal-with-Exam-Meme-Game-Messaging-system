@@ -3,3 +3,36 @@
         max-width: 1170px;
     }
 }
+
+@media (max-width:767px) {
+    .chat-box {
+        display: none;
+    }
+    .chat-box:target {
+        display: flex;
+        padding-right: 15px;
+    }
+
+    .chat-box:target ~ .edger {
+        display: none;
+        
+    }
+    .edger:target {
+        margin-top: 10px;
+    }
+
+    .inbox {
+        padding-right: 0;
+        margin-top: -20px;
+        height: calc(100dvh - 135px);
+    }
+    
+    .msg-scroll {
+        padding-right: 20px;
+    }
+    
+    .navbar_style {
+        margin-bottom: -20px;
+    }
+    
+}

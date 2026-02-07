@@ -17,11 +17,12 @@ def msg_send():
     if request.method == "POST":
         rcvr = request.form.get("reciever")
 
-        if Users.query.filter_by(username=rcvr).first():
 
+        if Users.query.filter_by(username=rcvr).first():
+            rcvr_info = Users.query.filter_by(username=rcvr).first()
             msg = request.form.get("msg_content")
             send(rcvr, msg)
-            flash("Message Sent!")
+            return redirect(url_for("message.chats", others_id=rcvr_info.id))
         else:
             flash("Please Send message to a valid user!")
             return redirect(url_for("message.msg_send"))
@@ -36,21 +37,20 @@ def inbox():
     my_id = session["user_id"]
     
     all_msg = Messages.query.filter(or_(Messages.r_id==my_id, Messages.s_id==my_id)).order_by(Messages.time).all()
+    if all_msg:
+        convos = set()
 
-    convos = set()
+        for msg in all_msg:
+            if msg.s_id != my_id:
+                convos.add(msg.s_id)
+            if msg.r_id != my_id:
+                convos.add(msg.r_id)
 
-    for msg in all_msg:
-        if msg.s_id != my_id:
-            convos.add(msg.s_id)
-        if msg.r_id != my_id:
-            convos.add(msg.r_id)
+        msged_users = Users.query.filter(Users.id.in_(convos)).all()
 
-    msged_users = Users.query.filter(Users.id.in_(convos)).all()
-
-    if all_msg:    
+        
         return render_template("inbox.html", id=my_id, msged_users=msged_users)
     else:
-        flash("No Messages yet!")
         return render_template("inbox.html")
     
 
@@ -62,8 +62,8 @@ def chats(others_id):
     
     my_id = session["user_id"]
 
-    others_info = Users.query.get(others_id)
-    others_name = others_info.username
+    other = Users.query.get(others_id)
+
 
 
     our_msgs = Messages.query.filter(or_((Messages.r_id==others_id) & (Messages.s_id==my_id),
@@ -82,4 +82,15 @@ def chats(others_id):
 
     msged_users = Users.query.filter(Users.id.in_(convos)).all()
     
-    return render_template("inbox.html", all_msg=our_msgs, id=my_id, msged_users=msged_users, others_name=others_name)
+    return render_template("inbox.html", all_msg=our_msgs, id=my_id, msged_users=msged_users, other=other)
+
+
+@msg_bp.route("/new-msg", methods=["POST"])
+def new_msg():
+    his_id = request.form.get("his_id")
+    message = request.form.get("newMsg")
+
+    his_info = Users.query.get(his_id)
+
+    send(his_info.username, message)
+    return redirect(url_for("message.chats", others_id=his_id))

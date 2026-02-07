@@ -15,9 +15,16 @@ def memer():
     for post in data["data"]["children"]:
         post_data = post["data"]
 
-        if post_data["post_hint"] == "image":
-            meme_data = {"title": post_data["title"], "image": post_data["url"] }
+        post_hint = post_data.get("post_hint")
+        url = post_data.get("url", "")
 
+        is_image = (
+            post_hint == "image"
+            or url.lower().endswith((".jpg", ".jpeg", ".png", ".gif"))
+        )
+
+        if is_image:
+            meme_data = {"title": post_data.get("title"), "image": url}
             memes.append(meme_data)
 
 

@@ -4,44 +4,49 @@ Inbox
 {% endblock %}
 
 {% block content %}
-<button class="button_styler"> <a href="{{ url_for('message.msg_send') }}" class="btn btn-primary send-color">New Message</a> </button>
 <hr>
 <br>
 <div class="container inbox">
   <div class="row">
     <div class="col-md-3 edger">
-      <hr class="line-changer">
-      {% for user in msged_users %}
-      <a class="link-color" href="{{ url_for('message.chats', others_id=user.id) }}">
-        <div class="tabs-style {% if request.endpoint == 'message.chats' and request.view_args.others_id == user.id %} active {% endif %}">{{ user.username }}</div>
-      </a>
-      <hr>
-      {% endfor %}</div>
+      <h4 class="chats">Chats</h4>
+      
+      <div class="chat-list">
+        {% for user in msged_users %}
+        <a class="link-color" href="{{ url_for('message.chats', others_id=user.id) }}#chat">
+          <div class="tabs-style {% if request.endpoint == 'message.chats' and request.view_args.others_id == user.id %} active {% endif %}">{{ user.username }}</div>
+        </a>
+        <hr>
+        {% endfor %}
+      </div>
+    <div class="new-chat"><button class="button_styler"> <a href="{{ url_for('message.msg_send') }}" class="btn btn-primary send-color">New Chat</a> </button></div>
+    </div>
 
-    <div class="col-md-8 msg-scroll">
+    <div id="chat" class="col-md chat-box">
       {% if all_msg %}
-        <table>
-        <colgroup>
-        <col style="width: 950px">
-        </colgroup>
-        <div class="head-name">{{ others_name }}</div> <hr> 
+        
+        <div class="head-name"><a href="{{ url_for('message.inbox') }}#"><i class="bi bi-box-arrow-left back-but"></i></a>&nbsp;&nbsp; {{ other.username }}</div>
+        
+          <div class="msg-scroll">
           {% for msg in all_msg %}
-
-          <tr>
-            <td>
-              {% if msg.sender.id == id %}
+            {% if msg.sender.id == id %}
               <div class="msg my">
                 <div class="my-bubble">{{ msg.content }}</div>
               </div>
-              {% else %}
+            {% else %}
               <div class="msg other">
                 <div class="other-bubble">{{ msg.content }}</div>
               </div>
-              {% endif %}
-            </td>
-          </tr>
+            {% endif %}
           {% endfor %}
-        </table>
+          </div>
+        <div>
+          <form action="{{ url_for('message.new_msg') }}#chat" method="POST">
+            <input type="hidden" name="his_id" value="{{ other.id }}">
+            <input type="text" name="newMsg" placeholder="Type a message" class="msg-input">
+            <button type="submit" class="send-button">Send</button>
+          </form>
+        </div>
       {% endif %}
     </div>
   </div>
