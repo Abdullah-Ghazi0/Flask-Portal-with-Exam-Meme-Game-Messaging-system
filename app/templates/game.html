@@ -7,12 +7,17 @@ Hangman
 <br>
 <h3>HANGMAN!</h3>
 <br>
-{% with messages = get_flashed_messages() %}
- {% if messages %}
-  {% for message in messages %}
-   <h4>{{ message }}</h4>
-  {% endfor %}
- {% endif %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
 {% endwith %}
 <br>
  <h3>{{ word_shown }}</h3>

@@ -3,7 +3,8 @@ A beginner-friendly Flask web portal where users can register, log in, and acces
 
 ## Users can:
 * Register and log in
-* Change their password
+* Change their Display Name and password
+* Change Profile Picture
 * Delete their account
 * Take an exam created by the admin
 * View Memes
@@ -57,3 +58,11 @@ This is a beginner project and may contain bugs<br>
 
 
 **We might add more features later**
+
+## Upcoming Features
+
+- Search Chat
+- DateTime of Messages
+- Read/Unread Messages
+- Encrypting Messages
+- Live Chat with JS

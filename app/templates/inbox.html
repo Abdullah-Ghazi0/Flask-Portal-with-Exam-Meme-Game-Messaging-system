@@ -8,15 +8,23 @@ Inbox
 <br>
 <div class="container inbox">
   <div class="row">
-    <div class="col-md-3 edger">
+    <div class="col-md-4 edger">
       <h4 class="chats">Chats</h4>
-      
+      <div class="bottem-line">
+        <form action="{{ url_for('message.search_chat') }}" method="GET">
+          <input type="text" placeholder="Search Chat" name="search" class="msg-input only-search" autocomplete="off">
+          <button type="submit" class="send-button search-butn">Search</button>
+        </form>
+      </div>
       <div class="chat-list">
-        {% for user in msged_users %}
-        <a class="link-color" href="{{ url_for('message.chats', others_id=user.id) }}#chat">
-          <div class="tabs-style {% if request.endpoint == 'message.chats' and request.view_args.others_id == user.id %} active {% endif %}">{{ user.username }}</div>
+        {% for user in chats_list %}
+        <a class="link-color  {% if request.endpoint == 'message.chats' and request.view_args.others_id == chats_list[user]['id'] %} active {% endif %}" href="{{ url_for('message.chats', others_id=chats_list[user]['id']) }}#chat">
+          <img src="{{ url_for('static', filename='images/avatars/' + chats_list[user]['pic']) }}" alt="img" class="chat-pics">
+          <div class="tabs-style">
+              {{ chats_list[user]["name"] }}
+            <p class="last-msg">{{ chats_list[user]["msg"] }}</p>
+          </div>
         </a>
-        <hr>
         {% endfor %}
       </div>
     <div class="new-chat"><button class="button_styler"> <a href="{{ url_for('message.msg_send') }}" class="btn btn-primary send-color">New Chat</a> </button></div>
@@ -25,7 +33,21 @@ Inbox
     <div id="chat" class="col-md chat-box">
       {% if all_msg %}
         
-        <div class="head-name"><a href="{{ url_for('message.inbox') }}#"><i class="bi bi-box-arrow-left back-but"></i></a>&nbsp;&nbsp; {{ other.username }}</div>
+        <div class="head-name">
+          <a href="{{ url_for('message.inbox') }}#">
+            <i class="bi bi-box-arrow-left back-but"></i>
+          </a>
+          
+          <img src="{{ url_for('static', filename='/images/avatars/' + other.picture) }}" alt="pic" class="chat-pics mx-2">
+          <div>
+            <div>
+                {{ other.displayname }}
+            </div>
+            <div class="head-un">
+                @{{ other.username }}
+            </div>
+          </div> 
+        </div>
         
           <div class="msg-scroll">
           {% for msg in all_msg %}
@@ -43,7 +65,7 @@ Inbox
         <div>
           <form action="{{ url_for('message.new_msg') }}#chat" method="POST">
             <input type="hidden" name="his_id" value="{{ other.id }}">
-            <input type="text" name="newMsg" placeholder="Type a message" class="msg-input">
+            <input type="text" name="newMsg" placeholder="Type a message" class="msg-input" autocomplete="off">
             <button type="submit" class="send-button">Send</button>
           </form>
         </div>
@@ -53,15 +75,4 @@ Inbox
 </div>
 
 
-
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-      {% for message in messages %}
-        {{ message }}
-      {% endfor %}
-    </ul>
-    <br>
-  {% endif %}
-{% endwith %}
 {% endblock %}

@@ -1,13 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for
 from .models import db
+import os
+from werkzeug.exceptions import RequestEntityTooLarge
 
 def create_app():
     app = Flask(__name__)
 
-    app.secret_key = "supersecretkey"
+    app.config['SECRET_KEY'] = "supersecretkey"
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///main.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["UPLOAD_FOLDER"] = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/images/avatars")
+    app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 *1024
     app.json.sort_keys = False
 
     db.init_app(app)
@@ -23,6 +27,11 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(game_bp)
     app.register_blueprint(msg_bp)
+
+    @app.errorhandler(RequestEntityTooLarge)
+    def handle_file_too_large(e):
+        flash("Image Too Large! Maximum size is 2MB.", "danger")
+        return redirect(url_for("auth.sett"))
 
     @app.route("/")
     def home():

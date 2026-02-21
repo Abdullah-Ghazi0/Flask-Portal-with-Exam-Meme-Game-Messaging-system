@@ -5,13 +5,16 @@ Home
 
 {% block content %}
 <h2>Welcome to home page!</h2>
-{% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-    <ul>
-    {% for message in messages %}
-      {{ message }}
+    {% for category, message in messages %}
+      
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
     {% endfor %}
-    </ul>
   {% endif %}
 {% endwith %}
 <img src="{{ url_for('static', filename='images/picture.png') }}" class="img-fluid" alt="programmer">

@@ -19,3 +19,6 @@ instance/
 
 # Windows
 Thumbs.db
+
+app/static/images/avatars/*
+!app/static/images/avatars/default.png

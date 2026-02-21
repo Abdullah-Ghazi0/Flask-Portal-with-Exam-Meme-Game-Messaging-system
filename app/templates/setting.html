@@ -5,6 +5,47 @@ Settings
 
 {% block content %}
 <br>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<h4>Change Profile Picture</h4>
+<div class="container change-pic">
+  <div class="row">
+    <div class="col-4 pic-form-shown">
+      <img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" alt="current profile picture" class="profile-pic">
+    </div>
+    <div class="col pic-form">
+      <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <label for="picture"><h6>Upload Profile Picture</h6></label><br>
+        <input class="upload" type="file" name="picture" accept="image/*" required><br><br>
+        
+        <button class="btn btn-primary send-color" type="submit">Update Picture</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<h4>Change Display Name</h4>
+<form action="{{ url_for('auth.sett') }}" method="POST">
+  <label for="disname">Display Name:</label>
+  <input type="text" name="disname" placeholder="Enter new display name" value="{{ displayn }}">
+  <br>
+  <br>
+  <button class="btn btn-secondary active" type="submit">Change Name</button>
+</form>
+<br>
 <h4>Change Password</h4>
 <form action="{{ url_for('auth.sett') }}" method="POST">
     <label for="old_pass">Current Password:</label>
@@ -31,13 +72,4 @@ Settings
     </button>
 </form>
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
 {% endblock %}

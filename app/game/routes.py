@@ -8,7 +8,7 @@ game_bp = Blueprint("game", __name__, url_prefix="/game")
 @game_bp.route("/")
 def game_play():
     if "user_id" not in session:
-        flash("You need to login first!")
+        flash("You need to login first!", 'danger')
         return redirect(url_for("auth.login"))
     if "word" not in session:
         game_start()
@@ -23,7 +23,7 @@ def game_play():
 def guessing():
     char = request.form.get("char").upper()
     if char in session["guessed"]:
-        flash("You Already guessed this charater!")
+        flash("You Already guessed this charater!", 'info')
     else:
         session["guessed"].append(char)
         if char not in session["word"]:
@@ -32,9 +32,9 @@ def guessing():
 
     status = winorloss()
     if status == "win":
-        flash("Congratulations! You Won")
+        flash("Congratulations! You Won", 'success')
     if status == "loss":
-        flash(f"GAME OVER! The word was : {session["word"]}")
+        flash(f"GAME OVER! The word was : {session["word"]}", 'danger')
     
     return redirect(url_for("game.game_play"))
 
@@ -53,7 +53,7 @@ def adding():
             )
             db.session.add(new_word)
             db.session.commit()
-            flash("Word Added Sccessfully!")
+            flash("Word Added Sccessfully!", 'success')
             return redirect(url_for("game.adding"))
 
         return render_template("adding_words.html")

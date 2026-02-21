@@ -20,7 +20,7 @@ def create():
             )
             db.session.add(question)
             db.session.commit()
-            flash("Question Added Sccessfully!")
+            flash("Question Added Sccessfully!", 'success')
             return redirect(url_for("exam.create"))
 
         return render_template("create.html")

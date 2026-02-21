@@ -2,18 +2,38 @@ html, body {
   height: 100%;
 }
 
-.navbar_style {
-    background-color: #29292b;
-     margin-top: -25px;
-     padding: 8px; color: white;
-     --bs-nav-link-color: white;
-     --bs-nav-link-hover-color: #8d8d8d;
+* {
+    box-sizing: border-box;
 }
+
+.nav-bar {
+    background-color:#29292b;
+}
+
+.nav-bar .nav-item {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.nav-bar .nav-link {
+  color: white;
+  font-size: 17px;
+}
+
+.nav-bar .nav-link:hover {
+  color: #8d8d8d;
+}
+
+.nav-bar .navbar-brand {
+  display: none;
+}
+
+
 
 .inbox {
     background-color: #202529;
     border-radius: 10px;
-    height: calc(100vh - 180px);          /* or calc(100vh - headerHeight) */
+    height: calc(100vh - 180px);          
     color: white;
     overflow: hidden;
     font-size: 16px;
@@ -38,6 +58,10 @@ html, body {
 }
 
 .head-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
     padding: 12px;
     font-weight: bold;
     border-bottom: 0.5px solid #6d6d6d;
@@ -46,6 +70,11 @@ html, body {
     background: #202529;;
     top: 0;
     z-index: 10;
+}
+
+.head-un {
+    font-weight: normal;
+    color: rgb(180, 180, 180);
 }
 
 .button_styler {
@@ -75,24 +104,33 @@ html, body {
 .link-color {
     text-decoration: none;
     color: white;
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 0.5px solid #6d6d6d;
+
+    transition: background-color 0.3s ease;
+    transition: padding 0.2s ease;
 }
 
 .tabs-style {
-    background-color: #202529;
-    transition: background-color 0.3s ease;
-    padding: 15px;
-    transition: padding 0.2s ease;
-    margin-top: -17px;
-    margin-bottom: -17px;
+    padding: 12px 5px;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 210px;
+    text-align: left;
 }
 
-.tabs-style.active {
+.link-color.active {
     background-color: #333333;
 }
 
-.tabs-style:hover {
+.link-color:hover {
     background-color: #383f46;
-    padding: 17px;
+    padding: 2px;
 }
 
 .msg {
@@ -221,7 +259,6 @@ html, body {
     padding-left: 20px;
     text-align: left;
     margin-bottom: 0;
-    border-bottom: 0.5px solid #6d6d6d;
     padding-bottom: 15px;
     margin-top: 0;
     
@@ -231,7 +268,10 @@ html, body {
     flex: 1;
     overflow-y: auto;
     min-height: 0;
-    padding-top: 15px;
+}
+
+.chat-list a {
+    width: 100%;
 }
 
 .new-chat {
@@ -241,5 +281,128 @@ html, body {
 
 .back-but {
     color: white;
-    font-size: 18px;
+    font-size: 21px;
+}
+
+.last-msg {
+    color: rgb(180, 180, 180);
+    font-size: 14px;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-pics {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+
+.profile-pic {
+    aspect-ratio: 1 / 1;
+    width: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 25px;
+}
+
+.nav-profile {
+    aspect-ratio: 1 / 1;
+    width: 25px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: -10px;
+    margin-right: 8px;
+    margin-top: -3px;
+}
+
+.profile-box {
+    max-width: 800px !important;
+    margin-top: 20px;
+}
+
+.names {
+    margin-top: 35px;
+    text-align: start;
+    margin-left: 30px;
+}
+
+.setting-style {
+    margin-top: 45px;
+    color: white;
+    font-size: 17px;
+    margin-bottom: 3px;
+    
+}
+
+.exam-box {
+    margin-top: 70px;
+}
+
+.exam-button {
+    width: 170px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.sett {
+    margin-right: 5px;
+}
+
+
+.change-pic {
+    max-width: 650px !important;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 20px;
+    margin-top: 5px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.pic-form-shown {
+    margin-right: 85px;
+}
+
+.upload {
+    margin-right: -190px;
+    margin-top: 8px;
+    margin-bottom: -2px;
+    
+}
+
+.bottem-line {
+    border-bottom: 0.5px solid #6d6d6d;
+    margin-top: -10px;
+    width: 100%;
+    
+}
+
+.bottem-line form {
+    position: relative;
+    width: 100% !important;
+}
+
+.only-search {
+    width: 90% !important;
+    padding-right: 80px;
+}
+
+.search-butn {
+    position: absolute;
+    right: 21px;
+    top: 45%;
+    transform: translateY(-50%);
+    
+    background-color: transparent; /* looks cleaner inside */
+    color: #008ad8;
+    border: 0;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 15px;
 }

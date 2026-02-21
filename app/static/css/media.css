@@ -1,8 +1,16 @@
 @media (min-width: 1200px) {
-    .container, .container-lg, .container-md, .container-sm, .container-xl {
+    .container {
         max-width: 1170px;
     }
 }
+
+@media (min-width: 1200px) {
+    .col-md-4 {
+        max-width: 330px !important;
+    }
+}
+
+/* inbox */
 
 @media (max-width:767px) {
     .chat-box {
@@ -29,10 +37,79 @@
     
     .msg-scroll {
         padding-right: 20px;
+        padding-left: 10px;
     }
     
-    .navbar_style {
-        margin-bottom: -20px;
+    .tabs-style {
+        max-width: 300px;
+    }
+    
+    .search-butn {
+        right: 30px;
+        top: 44%;
+    }
+}
+
+/* navbar */
+
+@media (max-width: 767px) {
+  .no-collapse .navbar-collapse {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+  .no-collapse .navbar-nav {
+    flex-direction: row !important;
+  }
+  .nav-bar {
+    margin-bottom: -20px;
+  }
+}
+
+/* profile */
+
+@media (max-width: 767px) {
+    .profile-box {
+        margin-top: 35px;
+    }
+    .profile-pic {
+        max-width: 120px;
+        padding: 0;
+        margin-left: 0px;
+    }
+    .names {
+        margin-top: 35px;
+        margin-left: 21px;
+    }
+    .setting-style {
+        margin-top: 35px;
+        font-size: 15px;
+    }
+    .setting-size {
+        padding: 0;
+        margin-right: 5px;  
+    }
+    .exam-box {
+        margin-top: 120px;
+        padding-right: 0;
+        margin-left: 0px;
+    }
+    .exam-button {
+        margin-bottom: 10px;
+    }
+}
+
+/* profile Picture Setting*/
+
+@media (max-width: 767px) {
+    .change-pic {
+        max-width: 100%;
+    }
+    .pic-form-shown {
+    margin-right: 0px;
+    }
+    .upload{
+        margin-right: 0px;
+        max-width: 100px;
     }
     
 }

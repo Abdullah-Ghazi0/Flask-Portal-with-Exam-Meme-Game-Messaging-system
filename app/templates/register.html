@@ -6,22 +6,33 @@ Registration
 {% block content %}
 <h3>Register Now!</h3>
 <br>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
 <form action="{{ url_for('auth.reg') }}" method="POST">
-    <label for="username">Username:</label>
+    <label for="display">Display Name:</label>
+    <input type="text" name="display" placeholder="Enter your full name" required>
+    <br>
+    <label for="username">Username:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="text" name="username" placeholder="Enter Unique Username" required>
     <br>
-    <label for="password">Password:</label>&nbsp;
+    <label for="password">Password:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="password" name="password" placeholder="Enter Strong Password" required>
     <br><br>
     <button type="submit" class="btn btn-secondary active">Register</button>
     <br>
     <br>
 </form>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-  {% endif %}
-{% endwith %}
+
 {% endblock %}
