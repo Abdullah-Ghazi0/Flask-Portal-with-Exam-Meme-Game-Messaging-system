@@ -61,8 +61,6 @@ This is a beginner project and may contain bugs<br>
 
 ## Upcoming Features
 
-- Search Chat
-- DateTime of Messages
-- Read/Unread Messages
 - Encrypting Messages
+- Read/Unread Messages
 - Live Chat with JS

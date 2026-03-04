@@ -1,7 +1,7 @@
 from flask import session
 from ..models import db, Messages, Users
 from sqlalchemy import or_
-
+from .TimeUtils import chat_time
 
 def send(r, m):
     recievingUser = Users.query.filter_by(username=r).first()
@@ -34,7 +34,7 @@ def all_chats():
                                                   (Messages.s_id==my_id) & (Messages.r_id==user.id))
                                                   ).order_by(Messages.time.desc()).first()
             
-            chats_list[user.username] = {"id": user.id, "msg": last_msgs.content, "time": last_msgs.time, "name": user.displayname, "pic": user.picture}
+            chats_list[user.username] = {"id": user.id, "msg": last_msgs.content, "time": last_msgs.time, "name": user.displayname, "pic": user.picture, 'chat_time': chat_time(last_msgs.time)}
             sorted_chats = dict(sorted(chats_list.items(), key=lambda x: x[1]['time'], reverse=True))
 
         return sorted_chats
@@ -42,7 +42,6 @@ def all_chats():
         return None
     
 def search_filter(search, chats):
-
     for chat in chats:
         if chats[chat]["name"].lower().startswith(search.lower()):
             chats[chat]["score"] = 4
@@ -50,10 +49,10 @@ def search_filter(search, chats):
         elif chat.lower().startswith(search.lower()):
             chats[chat]["score"] = 3
         
-        elif search.lower() in chats[chat]["name"]:
+        elif search.lower() in chats[chat]["name"].lower():
             chats[chat]["score"] = 2
         
-        elif search.lower() in chat:
+        elif search.lower() in chat.lower():
             chats[chat]["score"] = 1
         
         else:
@@ -64,6 +63,6 @@ def search_filter(search, chats):
             chats.pop(chat)
     
     searched_chats = dict(sorted(chats.items(), key=lambda x: x[1]['score'], reverse=True))
-    print(searched_chats)
+
 
     return searched_chats

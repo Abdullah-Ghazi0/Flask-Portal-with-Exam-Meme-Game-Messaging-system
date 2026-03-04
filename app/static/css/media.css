@@ -32,7 +32,7 @@
     .inbox {
         padding-right: 0;
         margin-top: -20px;
-        height: calc(100dvh - 135px);
+        height: calc(100dvh - 100px);
     }
     
     .msg-scroll {
@@ -41,13 +41,14 @@
     }
     
     .tabs-style {
-        max-width: 300px;
+        max-width: 83%;
     }
     
     .search-butn {
         right: 30px;
         top: 44%;
     }
+    
 }
 
 /* navbar */

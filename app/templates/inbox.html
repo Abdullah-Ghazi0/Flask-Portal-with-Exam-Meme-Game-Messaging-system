@@ -21,7 +21,10 @@ Inbox
         <a class="link-color  {% if request.endpoint == 'message.chats' and request.view_args.others_id == chats_list[user]['id'] %} active {% endif %}" href="{{ url_for('message.chats', others_id=chats_list[user]['id']) }}#chat">
           <img src="{{ url_for('static', filename='images/avatars/' + chats_list[user]['pic']) }}" alt="img" class="chat-pics">
           <div class="tabs-style">
-              {{ chats_list[user]["name"] }}
+            <div class="chat-top-line">
+              <span class="chat-name">{{ chats_list[user]["name"] }}</span>
+              <span class="chat-time">{{ chats_list[user]["chat_time"] }}</span>
+            </div>
             <p class="last-msg">{{ chats_list[user]["msg"] }}</p>
           </div>
         </a>
@@ -51,13 +54,22 @@ Inbox
         
           <div class="msg-scroll">
           {% for msg in all_msg %}
+            {% if msg.datetime[1] %}
+              <span class="date-box"> {{ msg.datetime[1] }} </span>
+            {% endif %}
             {% if msg.sender.id == id %}
               <div class="msg my">
-                <div class="my-bubble">{{ msg.content }}</div>
+                <div class="my-bubble">
+                 <span class="msg-text"> {{ msg.content }} </span>
+                 <span class="msg-time"> {{ msg.datetime[0]}} </span>
+                </div>
               </div>
             {% else %}
               <div class="msg other">
-                <div class="other-bubble">{{ msg.content }}</div>
+                <div class="other-bubble">
+                 <span class="msg-text"> {{ msg.content }} </span>
+                 <span class="msg-time"> {{ msg.datetime[0] }} </span>
+                </div>
               </div>
             {% endif %}
           {% endfor %}

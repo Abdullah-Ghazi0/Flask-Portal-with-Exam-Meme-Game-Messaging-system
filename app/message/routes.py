@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, session, flash, redirect, url_for,
 from .utils import send, all_chats, search_filter
 from ..models import Users, Messages
 from sqlalchemy import or_
+from .TimeUtils import msg_date
 
 msg_bp = Blueprint("message", __name__, url_prefix="/message")
 
@@ -57,10 +58,10 @@ def chats(others_id):
     our_msgs = Messages.query.filter(or_((Messages.r_id==others_id) & (Messages.s_id==my_id),
                                           (Messages.s_id==others_id) & (Messages.r_id==my_id))
                                           ).order_by(Messages.time.asc()).all()
-    
+    our_msgs_timed = msg_date(our_msgs)
     chats_list = all_chats()
     
-    return render_template("inbox.html", all_msg=our_msgs, id=my_id, chats_list=chats_list, other=other)
+    return render_template("inbox.html", all_msg=our_msgs_timed, id=my_id, chats_list=chats_list, other=other)
 
 
 @msg_bp.route("/new-msg", methods=["POST"])
