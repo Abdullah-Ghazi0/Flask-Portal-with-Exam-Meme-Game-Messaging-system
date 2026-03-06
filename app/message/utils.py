@@ -2,13 +2,14 @@ from flask import session
 from ..models import db, Messages, Users
 from sqlalchemy import or_
 from .TimeUtils import chat_time
+from .encryption import encrypter, decrypter
 
 def send(r, m):
     recievingUser = Users.query.filter_by(username=r).first()
     new_msg = Messages(
         s_id = session["user_id"],
         r_id = recievingUser.id,
-        content = m
+        content = encrypter(m)
     )
     db.session.add(new_msg)
     db.session.commit()
@@ -34,7 +35,7 @@ def all_chats():
                                                   (Messages.s_id==my_id) & (Messages.r_id==user.id))
                                                   ).order_by(Messages.time.desc()).first()
             
-            chats_list[user.username] = {"id": user.id, "msg": last_msgs.content, "time": last_msgs.time, "name": user.displayname, "pic": user.picture, 'chat_time': chat_time(last_msgs.time)}
+            chats_list[user.username] = {"id": user.id, "msg": decrypter(last_msgs.content), "time": last_msgs.time, "name": user.displayname, "pic": user.picture, 'chat_time': chat_time(last_msgs.time)}
             sorted_chats = dict(sorted(chats_list.items(), key=lambda x: x[1]['time'], reverse=True))
 
         return sorted_chats

@@ -3,6 +3,7 @@ from .utils import send, all_chats, search_filter
 from ..models import Users, Messages
 from sqlalchemy import or_
 from .TimeUtils import msg_date
+from .encryption import decrypter
 
 msg_bp = Blueprint("message", __name__, url_prefix="/message")
 
@@ -59,6 +60,9 @@ def chats(others_id):
                                           (Messages.s_id==others_id) & (Messages.r_id==my_id))
                                           ).order_by(Messages.time.asc()).all()
     our_msgs_timed = msg_date(our_msgs)
+    for msg in our_msgs:
+        msg.content = decrypter(msg.content)
+
     chats_list = all_chats()
     
     return render_template("inbox.html", all_msg=our_msgs_timed, id=my_id, chats_list=chats_list, other=other)

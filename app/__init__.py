@@ -2,6 +2,9 @@ from flask import Flask, render_template, flash, redirect, url_for
 from .models import db
 import os
 from werkzeug.exceptions import RequestEntityTooLarge
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)
@@ -12,6 +15,8 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["UPLOAD_FOLDER"] = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/images/avatars")
     app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 *1024
+    app.config["FERNET_KEY"] = os.getenv("FERNET_KEY")
+
     app.json.sort_keys = False
 
     db.init_app(app)

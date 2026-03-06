@@ -61,6 +61,6 @@ This is a beginner project and may contain bugs<br>
 
 ## Upcoming Features
 
-- Encrypting Messages
-- Read/Unread Messages
+
+- Messages Read Reciept and notification
 - Live Chat with JS
