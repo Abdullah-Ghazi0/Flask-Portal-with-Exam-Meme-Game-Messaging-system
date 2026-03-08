@@ -36,7 +36,11 @@
           <a class="nav-link" href="{{ url_for('game.game_play') }}">Hangman</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('message.inbox') }}">Inbox</a>
+          <a class="nav-link" href="{{ url_for('message.inbox') }}">Inbox
+            {% if has_unread_msgs %}
+              <span class="notification-dot"></span>
+            {% endif %}
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('auth.dash') }}"><img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" class="nav-profile">Profile</a>
@@ -56,6 +60,8 @@
 </nav>
 <br>
     {% block content %} {% endblock %}
+
+    {% block scripts %} {% endblock %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </html>

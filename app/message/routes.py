@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, flash, redirect, url_for, request
 from .utils import send, all_chats, search_filter
-from ..models import Users, Messages
+from ..models import Users, Messages, db
 from sqlalchemy import or_
 from .TimeUtils import msg_date
 from .encryption import decrypter
@@ -53,7 +53,12 @@ def chats(others_id):
     my_id = session["user_id"]
 
     other = Users.query.get(others_id)
-
+    if other:
+        unread = Messages.query.filter(Messages.r_id==my_id, Messages.s_id==others_id, Messages.read==False).all()
+        for msg in unread:
+            msg.read = True
+        
+        db.session.commit()
 
 
     our_msgs = Messages.query.filter(or_((Messages.r_id==others_id) & (Messages.s_id==my_id),

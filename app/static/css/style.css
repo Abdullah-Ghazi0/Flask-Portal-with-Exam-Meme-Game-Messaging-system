@@ -18,6 +18,7 @@ html, body {
 .nav-bar .nav-link {
   color: white;
   font-size: 17px;
+  position: relative;
 }
 
 .nav-bar .nav-link:hover {
@@ -26,6 +27,16 @@ html, body {
 
 .nav-bar .navbar-brand {
   display: none;
+}
+
+.notification-dot {
+    width: 7px;
+    height: 7px;
+    background: #5766dd;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    right: -1px;
 }
 
 
@@ -217,6 +228,12 @@ html, body {
     top: 6px;
 }
 
+.read {
+    font-size: 14px;
+    position: relative;
+    top: 2px;
+}
+
 .msg-text {
     display: inline;
     line-height: 1;
@@ -262,7 +279,7 @@ html, body {
     margin-bottom: 18px;
     border-radius: 20px 20px 20px 20px;
     border: 1px solid #6d6d6d;
-    margin-top: 10px;
+    margin-top: 11px;
     padding-left: 20px;
     color: white;
 }
@@ -314,15 +331,6 @@ html, body {
     font-size: 21px;
 }
 
-.last-msg {
-    color: rgb(180, 180, 180);
-    font-size: 14px;
-    margin-bottom: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
-}
 
 .chat-pics {
     width: 45px;
@@ -352,6 +360,55 @@ html, body {
     font-size: 11px;
     color: rgb(183, 182, 187);
 }
+
+.chat-bottom-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+}
+
+.last-msg {
+    color: rgb(180, 180, 180);
+    font-size: 14px;
+    margin: 0;
+
+    flex: 1;
+    min-width: 0;
+    margin-right: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.unread {
+    background-color: #4255e4;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    padding: 5px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    margin-left: 4px;
+    margin-right: 3px;
+}
+
+.unread-time {
+    color: #828eec !important;
+}
+
+.unread-last-msg {
+    color: white !important;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
 
 /* inbox end */
 
@@ -460,3 +517,4 @@ html, body {
     padding: 5px 10px;
     border-radius: 15px;
 }
+

@@ -23,9 +23,14 @@ Inbox
           <div class="tabs-style">
             <div class="chat-top-line">
               <span class="chat-name">{{ chats_list[user]["name"] }}</span>
-              <span class="chat-time">{{ chats_list[user]["chat_time"] }}</span>
+              <span class="chat-time {% if chats_list[user]['unread'] %} unread-time {% endif %} ">{{ chats_list[user]["chat_time"] }}</span>
             </div>
-            <p class="last-msg">{{ chats_list[user]["msg"] }}</p>
+            <div class="chat-bottom-line">
+              <p class="last-msg {% if chats_list[user]['unread'] %} unread-last-msg {% endif %} ">{{ chats_list[user]["msg"] }}</p>
+              {% if chats_list[user]["unread"] %}
+                <span class="unread"> {{ chats_list[user]["unread"] }} </span>
+              {% endif %}
+            </div>
           </div>
         </a>
         {% endfor %}
@@ -52,7 +57,7 @@ Inbox
           </div> 
         </div>
         
-          <div class="msg-scroll">
+          <div class="msg-scroll" id="scrollbox">
           {% for msg in all_msg %}
             {% if msg.datetime[1] %}
               <span class="date-box"> {{ msg.datetime[1] }} </span>
@@ -61,7 +66,13 @@ Inbox
               <div class="msg my">
                 <div class="my-bubble">
                  <span class="msg-text"> {{ msg.content }} </span>
-                 <span class="msg-time"> {{ msg.datetime[0]}} </span>
+                 <span class="msg-time"> {{ msg.datetime[0]}} 
+                  {% if msg.read == False %}
+                    <i class="bi bi-check2 read"></i>
+                  {% else %}
+                    <i class="bi bi-check2-all read"></i>
+                  {% endif %}
+                 </span>
                 </div>
               </div>
             {% else %}
@@ -86,5 +97,17 @@ Inbox
   </div>
 </div>
 
+
+{% endblock %}
+
+{% block scripts %}
+
+  <script>
+    function bottom_scroll(){
+      const scroll_box = document.getElementById("scrollbox")
+      scroll_box.scrollTop = scroll_box.scrollHeight
+    }
+    bottom_scroll()
+  </script>
 
 {% endblock %}

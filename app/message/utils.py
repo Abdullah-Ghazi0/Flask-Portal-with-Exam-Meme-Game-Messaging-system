@@ -14,6 +14,13 @@ def send(r, m):
     db.session.add(new_msg)
     db.session.commit()
 
+def unread_count(my, other):
+    unread = Messages.query.filter(Messages.r_id==my, Messages.s_id==other, Messages.read==False).all()
+    if len(unread) < 100:
+        return len(unread)
+    else:
+        return "99+"
+    
 
 def all_chats():
     my_id = session["user_id"]
@@ -35,7 +42,14 @@ def all_chats():
                                                   (Messages.s_id==my_id) & (Messages.r_id==user.id))
                                                   ).order_by(Messages.time.desc()).first()
             
-            chats_list[user.username] = {"id": user.id, "msg": decrypter(last_msgs.content), "time": last_msgs.time, "name": user.displayname, "pic": user.picture, 'chat_time': chat_time(last_msgs.time)}
+            chats_list[user.username] = {"id": user.id,
+                                        "msg": decrypter(last_msgs.content),
+                                        "time": last_msgs.time,
+                                        "name": user.displayname,
+                                        "pic": user.picture,
+                                        "chat_time": chat_time(last_msgs.time),
+                                        "unread": unread_count(my_id, user.id)}
+            
             sorted_chats = dict(sorted(chats_list.items(), key=lambda x: x[1]['time'], reverse=True))
 
         return sorted_chats

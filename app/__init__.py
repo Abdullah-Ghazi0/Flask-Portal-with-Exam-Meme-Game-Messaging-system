@@ -1,8 +1,9 @@
-from flask import Flask, render_template, flash, redirect, url_for
-from .models import db
+from flask import Flask, render_template, flash, redirect, url_for, session
+from .models import db, Messages
 import os
 from werkzeug.exceptions import RequestEntityTooLarge
 from dotenv import load_dotenv
+from flask_migrate import Migrate
 
 load_dotenv()
 
@@ -20,6 +21,7 @@ def create_app():
     app.json.sort_keys = False
 
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     from .memes.routes import meme_bp
     from .exam.routes import exam_bp
@@ -38,6 +40,13 @@ def create_app():
         flash("Image Too Large! Maximum size is 2MB.", "danger")
         return redirect(url_for("auth.sett"))
 
+    @app.context_processor
+    def unread_messages():
+        if "user_id" in session:
+            unread = Messages.query.filter_by(r_id=session["user_id"], read=False).first() is not None
+            return {"has_unread_msgs": unread}
+        return {"has_unread_msgs": False}
+        
     @app.route("/")
     def home():
         return render_template("home.html")
