@@ -43,7 +43,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('auth.dash') }}"><img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" class="nav-profile">Profile</a>
+          <a class="nav-link" href="{{ url_for('user.profile') }}"><img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" class="nav-profile">Profile</a>
         </li>
         {% else %}
         <li class="nav-item">

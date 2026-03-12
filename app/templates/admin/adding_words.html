@@ -1,21 +1,16 @@
 {% extends 'base.html'%}
 {% block title %}
-Admin
+Words Adding
 {% endblock %}
 
 {% block content %}
-<h1>{{ name }}, Welcome to Admin Panel!</h1>
-<button>
-    <a href="{{ url_for('exam.create') }}">Add Questions</a>
-</button>
-<button>
-    <a href="{{ url_for('game.adding') }}">Add Words</a>
-</button>
-<button>
-<a href="/settings">Setting</a>
-</button>
-<form action="/logout" method="POST">
-    <button type="submit">Logout</button>
+<h3>Words Adding Page!</h3>
+<form action="{{ url_for('game.adding') }}" method="POST">
+    <label for="word">Word:</label>
+    <input type="text" name="word" placeholder="Enter a Word" required>
+    <br><br>
+    <button type="submit" class="btn btn-primary">Enter</button>
+    <br>
 </form>
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}

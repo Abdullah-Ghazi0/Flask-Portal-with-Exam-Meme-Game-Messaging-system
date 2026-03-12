@@ -1,9 +1,9 @@
 from flask import Flask, render_template, flash, redirect, url_for, session
-from .models import db, Messages
+from .models import Messages
 import os
 from werkzeug.exceptions import RequestEntityTooLarge
 from dotenv import load_dotenv
-from flask_migrate import Migrate
+from .extensions import db, migrate
 
 load_dotenv()
 
@@ -21,19 +21,21 @@ def create_app():
     app.json.sort_keys = False
 
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)
 
-    from .memes.routes import meme_bp
-    from .exam.routes import exam_bp
-    from .auth.routes import auth_bp
-    from .game.routes import game_bp
-    from .message.routes import msg_bp
+    from .memes import meme_bp
+    from .exam import exam_bp
+    from .auth import auth_bp
+    from .game import game_bp
+    from .message import msg_bp
+    from .user import user_bp
 
     app.register_blueprint(meme_bp)
     app.register_blueprint(exam_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(game_bp)
     app.register_blueprint(msg_bp)
+    app.register_blueprint(user_bp)
 
     @app.errorhandler(RequestEntityTooLarge)
     def handle_file_too_large(e):

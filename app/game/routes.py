@@ -1,9 +1,7 @@
-from flask import Blueprint, render_template, session, request, flash, redirect, url_for
-from .word_adding import find_known_char
-from ..models import db, Words
-from .game_logic import game_start, winorloss
-
-game_bp = Blueprint("game", __name__, url_prefix="/game")
+from flask import render_template, session, request, flash, redirect, url_for
+from ..models import db, Words, Users
+from .game_logic import game_start, winorloss, find_known_char
+from . import game_bp
 
 @game_bp.route("/")
 def game_play():
@@ -17,7 +15,7 @@ def game_play():
     word_shown =" ".join(display)
     lives = session["lives"]
     mistakes = 6 - lives
-    return render_template("game.html", word_shown=word_shown, lives=lives, mistakes=mistakes)
+    return render_template("game/game.html", word_shown=word_shown, lives=lives, mistakes=mistakes)
 
 @game_bp.route("/guess", methods=["POST"])
 def guessing():
@@ -40,30 +38,35 @@ def guessing():
 
 @game_bp.route("/add-words", methods=["POST", "GET"])
 def adding():
-    if "user_id" in session and session["user_id"] == 1:
+    if "user_id" not in session:
+        flash("You need to login first!", 'danger')
+        return redirect(url_for("auth.login"))
+    
+    user = Users.query.get(session.get("user_id"))
+
+    if user.username == "admin":
         if request.method == "POST":
             word = request.form.get("word")
             word = word.upper()
 
-            word_len = len(word)
-
             new_word = Words(
                 word = word,
-                k_char = find_known_char(word_len)
+                k_char = find_known_char(word)
             )
             db.session.add(new_word)
             db.session.commit()
+            
             flash("Word Added Sccessfully!", 'success')
             return redirect(url_for("game.adding"))
 
-        return render_template("adding_words.html")
-    else:
-        return "<h1>You are not allowed access this page!"
+        return render_template("admin/adding_words.html")
+    
+    flash("You are not allowed access this page!")
+    return redirect(url_for('home'))
     
 @game_bp.route("/playagain")
 def again():
     session.pop("lives")
     session.pop("word")
     session.pop("guessed")
-    print(session)
     return redirect(url_for("game.game_play"))

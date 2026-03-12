@@ -1,12 +1,12 @@
-from flask import Blueprint, render_template, session
+from flask import render_template, session, flash, redirect, url_for
 from .meme_api import memer
-
-meme_bp = Blueprint("meme", __name__, url_prefix="/memes")
+from . import meme_bp
 
 @meme_bp.route("/")
 def show_meme():
     if "user_id" not in session:
-        return "<h1>You don't have access to this page!"
+        flash("Please login first!", 'danger')
+        return redirect(url_for('auth.login'))
     
     meme_post = memer()
-    return render_template("meme.html", meme=meme_post)
+    return render_template("memes/meme.html", meme=meme_post)

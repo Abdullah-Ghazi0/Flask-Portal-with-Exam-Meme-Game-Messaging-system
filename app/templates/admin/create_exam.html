@@ -4,18 +4,18 @@ Registration
 {% endblock %}
 
 {% block content %}
-<h1>Create Exam Page!</h1>
+<h3>Create Exam Page!</h3>
 <form action="{{ url_for('exam.create') }}" method="POST">
     <label for="question">Question:</label>
     <input type="text" name="question" placeholder="Enter a Question" required>
-    <br>
+    <br><br>
     <label for="answer">Correct Answer:</label>
     <select name="answer">
         <option value="True">True</option>
         <option value="">False</option>
     </select>
     <br><br>
-    <button type="submit">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
     <br>
 </form>
 {% with messages = get_flashed_messages(with_categories=true) %}

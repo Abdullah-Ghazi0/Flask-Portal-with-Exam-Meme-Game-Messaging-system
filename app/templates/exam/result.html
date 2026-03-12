@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+{% block title %}
+Result
+{% endblock %}
+
+{% block content %}
+    <h3>Result page!</h3>
+    
+    {% if result %}
+        {% if result.score >= 7 %}
+            <p>Congratulation You have passed, Marks:{{ result.score }}</p>
+        {% else %}
+            <p>You have failed, Marks:{{ result.score }}</p>
+        {% endif %}
+    {% else %}
+        <p>Please Take Test to view your result!</p>
+    {% endif %}
+
+{% endblock %}

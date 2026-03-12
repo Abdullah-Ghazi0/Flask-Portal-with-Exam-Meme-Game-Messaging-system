@@ -518,3 +518,7 @@ html, body {
     border-radius: 15px;
 }
 
+.meme {
+    max-width: 750px;
+}
+

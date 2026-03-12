@@ -61,6 +61,4 @@ This is a beginner project and may contain bugs<br>
 
 ## Upcoming Features
 
-
-- Messages Read Reciept and notification
 - Live Chat with JS

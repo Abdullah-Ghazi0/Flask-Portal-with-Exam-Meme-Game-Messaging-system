@@ -1,11 +1,10 @@
-from flask import Blueprint, render_template, session, flash, redirect, url_for, request
+from flask import render_template, session, flash, redirect, url_for, request
 from .utils import send, all_chats, search_filter
 from ..models import Users, Messages, db
 from sqlalchemy import or_
 from .TimeUtils import msg_date
 from .encryption import decrypter
-
-msg_bp = Blueprint("message", __name__, url_prefix="/message")
+from . import msg_bp
 
 @msg_bp.route("/send", methods=["POST", "GET"])
 def msg_send():
@@ -19,29 +18,29 @@ def msg_send():
     if request.method == "POST":
         rcvr = request.form.get("reciever")
 
-
-        if Users.query.filter_by(username=rcvr).first():
-            rcvr_info = Users.query.filter_by(username=rcvr).first()
+        rcvr_info = Users.query.filter_by(username=rcvr).first()
+        if rcvr_info:
             msg = request.form.get("msg_content")
             send(rcvr, msg)
             return redirect(url_for("message.chats", others_id=rcvr_info.id))
-        else:
-            flash("Please Send message to a valid user!", 'danger')
-            return redirect(url_for("message.msg_send"))
+        
+        flash("Please Send message to a valid user!", 'danger')
+        return redirect(url_for("message.msg_send"))
 
-    return render_template("message.html", allUsers=unames)
+    return render_template("message/new_chat.html", allUsers=unames)
 
 @msg_bp.route("/inbox")
 def inbox():
     if "user_id" not in session:
         flash("You need to login first!", 'danger')
         return redirect(url_for("auth.login"))
+    
     my_id = session["user_id"]
     chats_list = all_chats()
     if chats_list:
-        return render_template("inbox.html", id=my_id, chats_list=chats_list)
-    else:
-        return render_template("inbox.html")
+        return render_template("message/inbox.html", id=my_id, chats_list=chats_list)
+    
+    return render_template("message/inbox.html")
     
 
 @msg_bp.route("/inbox/chat/<int:others_id>")
@@ -70,7 +69,7 @@ def chats(others_id):
 
     chats_list = all_chats()
     
-    return render_template("inbox.html", all_msg=our_msgs_timed, id=my_id, chats_list=chats_list, other=other)
+    return render_template("message/inbox.html", all_msg=our_msgs_timed, id=my_id, chats_list=chats_list, other=other)
 
 
 @msg_bp.route("/new-msg", methods=["POST"])
@@ -97,6 +96,6 @@ def search_chat():
     searched=search_filter(search=search_str, chats=all_chat)
 
     if searched:
-        return render_template("inbox.html", id=my_id, chats_list=searched)
-    else:
-        return render_template("inbox.html")
+        return render_template("message/inbox.html", id=my_id, chats_list=searched)
+    
+    return render_template("message/inbox.html")

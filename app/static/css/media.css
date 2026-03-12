@@ -97,6 +97,12 @@
     .exam-button {
         margin-bottom: 10px;
     }
+
+    /* meme page */
+
+    .meme {
+        max-width: 100%;
+    }
 }
 
 /* profile Picture Setting*/

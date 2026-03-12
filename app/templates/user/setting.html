@@ -38,7 +38,7 @@ Settings
 </div>
 
 <h4>Change Display Name</h4>
-<form action="{{ url_for('auth.sett') }}" method="POST">
+<form action="{{ url_for('user.setting') }}" method="POST">
   <label for="disname">Display Name:</label>
   <input type="text" name="disname" placeholder="Enter new display name" value="{{ displayn }}">
   <br>
@@ -47,7 +47,7 @@ Settings
 </form>
 <br>
 <h4>Change Password</h4>
-<form action="{{ url_for('auth.sett') }}" method="POST">
+<form action="{{ url_for('user.setting') }}" method="POST">
     <label for="old_pass">Current Password:</label>
     &nbsp;&nbsp;
     <input type="password" name="old_pass" placeholder="Enter Current Password" required>
@@ -66,7 +66,7 @@ Settings
 <br>
 <h4>Delete Account</h4>
 <br>
-<form action="{{ url_for('auth.delete') }}" method="POST">
+<form action="{{ url_for('user.delete') }}" method="POST">
     <button class="btn btn-secondary active" type="submit" onclick="return confirm('Are you sure? This will permanently delete your account.')">
         Delete my Account
     </button>

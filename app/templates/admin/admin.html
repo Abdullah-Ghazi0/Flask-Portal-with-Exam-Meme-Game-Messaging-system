@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+{% block title %}
+Admin
+{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<h2>{{ user.displayname }}, Welcome to Admin Panel!</h2>
+<br>
+
+<a href="{{ url_for('exam.create') }}" class="btn btn-info exam-button">Add Questions</a>
+
+
+<a href="{{ url_for('game.adding') }}" class="btn btn-info exam-button">Add Words</a>
+
+
+<a href="{{ url_for('user.setting') }}" class="btn btn-secondary"><i class="bi bi-gear-fill sett"></i>Setting</a>
+<br><br><br>
+<form action="{{ url_for('auth.logout') }}" method="POST">
+    <button type="submit" class="btn btn-secondary btn-sm">Logout</button>
+</form>
+
+{% endblock %}

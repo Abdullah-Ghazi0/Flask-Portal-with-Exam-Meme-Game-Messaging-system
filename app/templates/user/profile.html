@@ -25,12 +25,12 @@ Profile
       <img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" alt="profile picture" class="profile-pic">
     </div>
     <div class="col names">
-      <h3>{{ display_name }}</h3>
-      <h6>@{{ name }}</h6>
+      <h3>{{ user.displayname }}</h3>
+      <h6>@{{ user.username }}</h6>
     </div>
     <div class="col-3 setting-size">
-        <a href="/settings" class="btn btn-secondary setting-style"><i class="bi bi-gear-fill sett"></i>Settings</a>
-        <form action="/logout" method="POST">
+        <a href="{{ url_for('user.setting') }}" class="btn btn-secondary setting-style"><i class="bi bi-gear-fill sett"></i>Settings</a>
+        <form action="{{ url_for('auth.logout') }}" method="POST">
           <button type="submit" class="btn btn-secondary btn-sm" style="margin-top: 2px;">Logout</button>
         </form>
     </div>

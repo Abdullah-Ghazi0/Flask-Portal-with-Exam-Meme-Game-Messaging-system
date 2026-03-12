@@ -1,5 +1,5 @@
 from flask import session
-from ..models import db, Words
+from ..models import Words
 from sqlalchemy import func
 import random
 
@@ -23,5 +23,18 @@ def winorloss():
         return "win"
     if session["lives"] <= 0:
         return "loss"
+    
+def find_known_char(word):
+    word_len = len(word)
+    if word_len <= 4:
+        known_char = 0
+    elif word_len <= 8:
+        known_char = 1
+    elif word_len <= 13:
+        known_char = 2
+    else:
+        known_char = 3
+
+    return known_char
 
 
