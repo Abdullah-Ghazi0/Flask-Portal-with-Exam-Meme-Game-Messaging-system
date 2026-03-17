@@ -20,26 +20,51 @@ Profile
   {% endif %}
 {% endwith %}
 
-  <div class="row">
-    <div class="col-3">
+  <div class="row align-items-start">
+    <div class="col-md-2 col-4">
       <img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" alt="profile picture" class="profile-pic">
     </div>
-    <div class="col names">
-      <h3>{{ user.displayname }}</h3>
-      <h6>@{{ user.username }}</h6>
+    <div class="col-md-4 col-6 names">
+      <h3 class="small-name"><b>{{ user.profile.displayname }}</b>
+        {% if user.profile.verified == False %}  
+          <i class="bi bi-patch-check-fill verified-badge"></i> </h3>
+        {% endif %}
+        <h5>@{{ user.username }}</h5>
     </div>
-    <div class="col-3 setting-size">
+
+    <div class="col-md-3 col stats">
+      <div class="d-flex justify-content-between">
+          <span class="each-stat">999k Posts</span>
+          <span class="each-stat">999K Followers</span>
+          <span class="each-stat">999K Following</span>
+      </div>
+
+    </div>
+      
+    <div class="col-md-3 col setting-box">
         <a href="{{ url_for('user.setting') }}" class="btn btn-secondary setting-style"><i class="bi bi-gear-fill sett"></i>Settings</a>
         <form action="{{ url_for('auth.logout') }}" method="POST">
           <button type="submit" class="btn btn-secondary btn-sm" style="margin-top: 2px;">Logout</button>
         </form>
     </div>
-    <div class="row justify-content-center exam-box">
+  </div>
+  <div class="row">
+    <div class="col-8">
+      <div class="bio">
+        {%- if user.profile.bio %}
+          {{ user.profile.bio }}
+        {%- endif %}
+        {%- if user.profile.link %}
+          <a href="{{ user.profile.link }}" target="_blank" class="profile-link" title="{{ user.profile.link }}"><i class="bi bi-link-45deg fs-5"></i>  {{ user.profile.link.replace('https://','').replace('http://','').replace('www.','') }}</a>
+        {%- endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center exam-box">
       <div class="col-8">
           <a href="{{ url_for('exam.exam') }}" class="btn btn-info exam-button">Start Exam</a>
           <a href="{{ url_for('exam.result') }}"" class="btn btn-success exam-button">View Result</a>
       </div>
-    </div>
   </div>
 </div>
 

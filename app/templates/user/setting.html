@@ -40,12 +40,33 @@ Settings
 <h4>Change Display Name</h4>
 <form action="{{ url_for('user.setting') }}" method="POST">
   <label for="disname">Display Name:</label>
-  <input type="text" name="disname" placeholder="Enter new display name" value="{{ displayn }}">
+  <input type="text" name="disname" placeholder="Enter new display name" value="{{ user.profile.displayname }}" required>
   <br>
   <br>
   <button class="btn btn-secondary active" type="submit">Change Name</button>
 </form>
 <br>
+
+<h4>Change Bio</h4>
+<form action="{{ url_for('user.setting') }}" method="POST">
+  <div>
+  <textarea name="bioData" id="bioData" rows="3" cols="40" placeholder="Bio..." maxlength="200">{% if user.profile.bio %}{{ user.profile.bio }}{% endif %}</textarea>
+  </div>
+  <br>
+  <button class="btn btn-secondary active" type="submit">Change Bio</button>
+</form>
+<br>
+
+<h4>Change Link</h4>
+<form action="{{ url_for('user.setting') }}" method="POST">
+  <div>
+  <label for="link">Link:</label>
+  <input type="url" name="link" placeholder="Enter a Link" {% if user.profile.link %} value="{{ user.profile.link }}" {% endif %}>
+  <button class="btn btn-secondary active mx-2" type="submit">Change Link</button>
+  </div>
+</form>
+<br>
+
 <h4>Change Password</h4>
 <form action="{{ url_for('user.setting') }}" method="POST">
     <label for="old_pass">Current Password:</label>
@@ -71,5 +92,6 @@ Settings
         Delete my Account
     </button>
 </form>
+<br>
 
 {% endblock %}

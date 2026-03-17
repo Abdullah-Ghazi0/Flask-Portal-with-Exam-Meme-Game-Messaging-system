@@ -1,6 +1,6 @@
 import os
 from flask import render_template, session, redirect, url_for, request, flash, current_app
-from ..models import db, Users
+from ..models import db, Users, UserProfiles
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import auth_bp
 
@@ -17,14 +17,23 @@ def reg():
 
         if Users.query.filter_by(username=uname).first():
             flash("This username is taken!", 'danger')
+            return redirect(url_for('auth.reg'))
         else:
             user = Users(
                 username = uname,
-                displayname = dname,
                 password = hashed_pw
             )
             db.session.add(user)
+            db.session.flush()
+            
+            profile = UserProfiles(
+                user=user,
+                displayname=dname
+            )
+            
+            db.session.add(profile)
             db.session.commit()
+
             flash("Registered Sccessfully!", 'success')
             return redirect(url_for('auth.login'))
 
@@ -41,9 +50,9 @@ def login():
         if user and check_password_hash(user.password, log_pword):
             session["user_id"] = user.id
 
-            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], user.picture)
+            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], user.profile.picture)
             if os.path.exists(filepath):
-                session["profile_picture"] = user.picture
+                session["profile_picture"] = user.profile.picture
             else:
                 session["profile_picture"] = "default.png"
             flash("Login Sccessful!", 'success')

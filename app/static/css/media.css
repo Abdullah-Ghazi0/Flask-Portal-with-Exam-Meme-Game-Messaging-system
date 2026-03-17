@@ -72,30 +72,67 @@
     .profile-box {
         margin-top: 35px;
     }
+
+    .profile-box .row{
+        display:flex;
+        flex-wrap:wrap;
+    }
+
     .profile-pic {
         max-width: 120px;
         padding: 0;
         margin-left: 0px;
+        width:100%;
+        margin-top: 10px;
     }
+
     .names {
-        margin-top: 35px;
+        margin-top: 15px;
+        padding-left: 5px;
+        width: 60%;
         margin-left: 21px;
     }
+
+    .stats{
+        max-width: 60%;
+        margin-top: -40px;
+        margin-left: 34%;
+    }
+
+    .bio{
+        width: 85%;
+        margin-left: 5%;
+        margin-top: -105px;
+    }
+  
+    .setting-box {
+        margin-left: 65%;
+        max-width: 220px;
+        margin-top: -10px;
+    }
+
     .setting-style {
         margin-top: 35px;
         font-size: 15px;
     }
+
     .setting-size {
         padding: 0;
         margin-right: 5px;  
     }
+
     .exam-box {
-        margin-top: 120px;
+        margin-top: 50px;
         padding-right: 0;
         margin-left: 0px;
     }
+
     .exam-button {
         margin-bottom: 10px;
+    }
+
+    .exam-box .btn{
+    margin-bottom:8px;
     }
 
     /* meme page */
@@ -119,4 +156,24 @@
         max-width: 100px;
     }
     
+}
+
+@media (max-width: 450px) {
+    .names {
+        font-size: 14px;
+        margin-left: 15px;
+        padding-right: 0;
+    }
+
+    .stats {
+        margin-top: -30px;
+    }
+
+    .each-stat {
+        padding: 5px;
+    }
+
+    .small-name {
+        font-size: 20px;
+    }
 }

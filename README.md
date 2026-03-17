@@ -61,4 +61,6 @@ This is a beginner project and may contain bugs<br>
 
 ## Upcoming Features
 
+- Delete Account
+- View Others Profile
 - Live Chat with JS

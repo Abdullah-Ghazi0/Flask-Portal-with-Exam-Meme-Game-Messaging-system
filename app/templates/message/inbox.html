@@ -46,10 +46,10 @@ Inbox
             <i class="bi bi-box-arrow-left back-but"></i>
           </a>
           
-          <img src="{{ url_for('static', filename='/images/avatars/' + other.picture) }}" alt="pic" class="chat-pics mx-2">
+          <img src="{{ url_for('static', filename='/images/avatars/' + other.profile.picture) }}" alt="pic" class="chat-pics mx-2">
           <div>
             <div>
-                {{ other.displayname }}
+                {{ other.profile.displayname }}
             </div>
             <div class="head-un">
                 @{{ other.username }}

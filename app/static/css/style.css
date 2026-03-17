@@ -413,12 +413,14 @@ html, body {
 /* inbox end */
 
 
+
 .profile-pic {
     aspect-ratio: 1 / 1;
-    width: 140px;
+    width: 150px;
     object-fit: cover;
     border-radius: 50%;
     margin-left: 25px;
+    margin-top: 15px;
 }
 
 .nav-profile {
@@ -432,14 +434,65 @@ html, body {
 }
 
 .profile-box {
-    max-width: 800px !important;
+    max-width: 1000px !important;
     margin-top: 20px;
 }
 
 .names {
-    margin-top: 35px;
+    margin-top: 30px;
     text-align: start;
-    margin-left: 30px;
+    padding-left: 60px;
+    /* margin-left: 30px; */
+}
+
+.verified-badge {
+    color:#1DA1F2;
+    font-size:20px;
+    margin-left:5px;
+    vertical-align:middle;
+}
+
+.stats {
+    margin-top: 60px;
+    font-weight: 500;
+}
+
+.each-stat {
+    background-color: white;
+    border-radius: 12px;
+    margin: 0 2px;
+    padding: 10px;
+    transition: background-color 0.3 ease;
+}
+
+.each-stat:hover {
+    background-color: #f0f2f5;
+    cursor: default;
+}
+
+.bio {
+    min-width: 0;
+    width: 50%;
+    margin-top: -35px;
+    margin-left: 215px;
+    font-weight: 400;
+    white-space: pre-line;
+    text-align: start;
+
+}
+
+.profile-link {
+    text-decoration: none;
+    color: #4a5df9;
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-link:hover {
+    text-decoration: underline;
 }
 
 .setting-style {

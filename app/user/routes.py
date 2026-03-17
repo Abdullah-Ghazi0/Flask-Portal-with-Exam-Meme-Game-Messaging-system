@@ -32,7 +32,6 @@ def setting():
     user_id = session.get("user_id")
 
     user = Users.query.get(user_id)
-    displayn = user.displayname
 
     # Changing Profile Picture
 
@@ -55,7 +54,7 @@ def setting():
 
             file.save(file_path)
 
-            user.picture = file_name
+            user.profile.picture = file_name
             db.session.commit()
 
             session["profile_picture"] = file_name
@@ -68,6 +67,10 @@ def setting():
         c_pass = request.form.get("conf_pass")
             
         new_dname = request.form.get("disname")
+
+        bio = request.form.get("bioData")
+
+        link = request.form.get("link")
 
         # Changing password
 
@@ -91,12 +94,24 @@ def setting():
         # Changing display name
 
         if new_dname:
-            user.displayname = new_dname
+            user.profile.displayname = new_dname
             db.session.commit()
             flash("Display name changed!", 'success')
             return redirect(url_for('user.profile'))
         
-    return render_template("user/setting.html", displayn=displayn, form=form)
+        if bio:
+            user.profile.bio = bio
+            db.session.commit()
+            flash("Bio changed!", 'success')
+            return redirect(url_for('user.profile'))
+        
+        if link:
+            user.profile.link = link
+            db.session.commit()
+            flash("Link changed!", 'success')
+            return redirect(url_for('user.profile'))
+        
+    return render_template("user/setting.html", form=form, user=user)
 
 
 @user_bp.route("/delete", methods = ["POST"])
@@ -105,7 +120,7 @@ def delete():
     user = Users.query.get(user_id)
     
     if user:
-        session.pop("user_id")
+        session.clear()
         db.session.delete(user)
         db.session.commit()
         

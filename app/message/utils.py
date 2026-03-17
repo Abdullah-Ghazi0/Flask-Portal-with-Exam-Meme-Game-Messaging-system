@@ -45,8 +45,8 @@ def all_chats():
             chats_list[user.username] = {"id": user.id,
                                         "msg": decrypter(last_msgs.content),
                                         "time": last_msgs.time,
-                                        "name": user.displayname,
-                                        "pic": user.picture,
+                                        "name": user.profile.displayname,
+                                        "pic": user.profile.picture,
                                         "chat_time": chat_time(last_msgs.time),
                                         "unread": unread_count(my_id, user.id)}
             
