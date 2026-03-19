@@ -1,11 +1,16 @@
-from flask import session
+from flask import session, flash, redirect, url_for
 from ..models import db, Messages, Users
 from sqlalchemy import or_
 from .TimeUtils import chat_time
 from .encryption import encrypter, decrypter
 
 def send(r, m):
-    recievingUser = Users.query.filter_by(username=r).first()
+    recievingUser = Users.query.filter_by(username=r).execution_options(include_deleted=True).first()
+
+    if recievingUser.status != 'active':
+        flash("You cannot reply to this conversation!", 'danger')
+        return redirect(url_for("message.chats", others_id=recievingUser.id))
+    
     new_msg = Messages(
         s_id = session["user_id"],
         r_id = recievingUser.id,
@@ -35,8 +40,7 @@ def all_chats():
                 convos.add(msg.r_id)
 
         chats_list = {}
-        msged_users = Users.query.filter(Users.id.in_(convos)).all()
-
+        msged_users = Users.query.filter(Users.id.in_(convos)).execution_options(include_deleted=True).all() #this query get all users even deleted ones
         for user in msged_users:
             last_msgs = Messages.query.filter(or_((Messages.r_id==my_id) & (Messages.s_id==user.id),
                                                   (Messages.s_id==my_id) & (Messages.r_id==user.id))

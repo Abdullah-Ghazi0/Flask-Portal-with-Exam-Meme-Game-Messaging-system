@@ -51,7 +51,7 @@ def chats(others_id):
     
     my_id = session["user_id"]
 
-    other = Users.query.get(others_id)
+    other = Users.query.execution_options(include_deleted=True).get(others_id)
     if other:
         unread = Messages.query.filter(Messages.r_id==my_id, Messages.s_id==others_id, Messages.read==False).all()
         for msg in unread:
@@ -77,7 +77,7 @@ def new_msg():
     his_id = request.form.get("his_id")
     message = request.form.get("newMsg")
 
-    his_info = Users.query.get(his_id)
+    his_info = Users.query.execution_options(include_deleted=True).get(his_id)
 
     send(his_info.username, message)
     return redirect(url_for("message.chats", others_id=his_id))

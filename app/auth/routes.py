@@ -15,6 +15,10 @@ def reg():
 
         hashed_pw = generate_password_hash(pword)
 
+        if uname.startswith("deleted_user_"):
+            flash("This username is not allowed, please use a different one!", 'danger')
+            return redirect(url_for('auth.reg'))
+
         if Users.query.filter_by(username=uname).first():
             flash("This username is taken!", 'danger')
             return redirect(url_for('auth.reg'))
