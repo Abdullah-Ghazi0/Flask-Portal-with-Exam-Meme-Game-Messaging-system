@@ -4,35 +4,6 @@ from .simple_api import convertor
 from sqlalchemy.sql import func
 from . import exam_bp
 
-@exam_bp.route("/create-exam", methods = ["GET","POST"])
-def create():
-    if "user_id" not in session:
-        flash("Please login first!", 'danger')
-        return redirect(url_for('auth.login'))
-
-    user = Users.query.get(session.get("user_id"))
-    if user.username == "admin":
-
-        if request.method == "POST":
-            q = request.form.get("question")
-            a = bool(request.form.get("answer"))
-
-            question = Questions(
-                q_text = q,
-                answer = a
-            )
-            db.session.add(question)
-            db.session.commit()
-
-            flash("Question Added Sccessfully!", 'success')
-            return redirect(url_for("exam.create"))
-
-        return render_template("admin/create_exam.html")
-
-    flash("You are not allowed to access this page!", 'danger')
-    return redirect(url_for('home'))
-
-
 @exam_bp.route("/")
 def exam():
     if "user_id" not in session:

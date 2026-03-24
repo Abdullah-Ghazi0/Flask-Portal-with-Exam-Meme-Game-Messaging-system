@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+    User Management
+{% endblock %}
+
+{% block content %}
+<h3>User Management</h3>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<br><br>
+<h4>Ban User</h4>
+<form action="{{ url_for('admin.manage_user') }}" method="POST" onsubmit="return confirm('Are you Sure? This will permanently Ban the User!');">
+  <label for="userToBan">Username:</label>
+  <input type="text" name="userToBan" placeholder="Enter User to Ban" required>
+  <button type="submit" class="btn btn-primary">Ban</button>
+</form>
+<br><br>
+
+<h4>Verify User</h4>
+<form action="{{ url_for('admin.manage_user') }}" method="POST">
+  <label for="userToVerify">Username:</label>
+  <input type="text" name="userToVerify" placeholder="Enter User to Verify" required>
+  <br><br>
+  <label for="verification">Verification:</label>
+  <select name="verification" id="verifying">
+    <option value="True">Give Verifed Badge</option>
+    <option value="False">Remove Verified Badge</option>
+  </select>
+  <br><br>
+  <button type="submit" class="btn btn-primary">Verify</button>
+</form>
+
+{% endblock %}

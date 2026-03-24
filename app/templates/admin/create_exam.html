@@ -5,7 +5,7 @@ Registration
 
 {% block content %}
 <h3>Create Exam Page!</h3>
-<form action="{{ url_for('exam.create') }}" method="POST">
+<form action="{{ url_for('admin.create_exam') }}" method="POST">
     <label for="question">Question:</label>
     <input type="text" name="question" placeholder="Enter a Question" required>
     <br><br>

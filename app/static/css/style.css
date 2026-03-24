@@ -445,11 +445,14 @@ html, body {
     /* margin-left: 30px; */
 }
 
+.small-name {
+    width: 200%;
+}
+
 .verified-badge {
     color:#1DA1F2;
     font-size:20px;
     margin-left:5px;
-    vertical-align:middle;
 }
 
 .stats {
@@ -573,5 +576,10 @@ html, body {
 
 .meme {
     max-width: 750px;
+}
+
+.deleted-name {
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 

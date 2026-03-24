@@ -19,7 +19,7 @@ def reg():
             flash("This username is not allowed, please use a different one!", 'danger')
             return redirect(url_for('auth.reg'))
 
-        if Users.query.filter_by(username=uname).first():
+        if Users.query.filter_by(username=uname).execution_options(include_deleted=True).first():
             flash("This username is taken!", 'danger')
             return redirect(url_for('auth.reg'))
         else:
@@ -60,6 +60,10 @@ def login():
             else:
                 session["profile_picture"] = "default.png"
             flash("Login Sccessful!", 'success')
+
+            if user.username == "admin":
+                return redirect(url_for('admin.panel'))
+            
             return redirect(url_for('user.profile'))
 
         else:

@@ -26,7 +26,7 @@ Profile
     </div>
     <div class="col-md-4 col-6 names">
       <h3 class="small-name"><b>{{ user.profile.displayname }}</b>
-        {% if user.profile.verified == False %}  
+        {% if user.profile.verified == True %}  
           <i class="bi bi-patch-check-fill verified-badge"></i> </h3>
         {% endif %}
         <h5>@{{ user.username }}</h5>

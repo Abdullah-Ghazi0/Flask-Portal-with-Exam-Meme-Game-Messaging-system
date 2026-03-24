@@ -5,7 +5,7 @@ Words Adding
 
 {% block content %}
 <h3>Words Adding Page!</h3>
-<form action="{{ url_for('game.adding') }}" method="POST">
+<form action="{{ url_for('admin.adding_word') }}" method="POST">
     <label for="word">Word:</label>
     <input type="text" name="word" placeholder="Enter a Word" required>
     <br><br>

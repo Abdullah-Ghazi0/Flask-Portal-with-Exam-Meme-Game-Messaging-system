@@ -19,7 +19,7 @@ def profile():
     user = Users.query.get(usrid)
 
     if user.username == "admin":
-        return render_template("admin/admin.html", user=user)
+        return redirect(url_for('admin.panel'))
 
     return render_template("user/profile.html", user=user)
     

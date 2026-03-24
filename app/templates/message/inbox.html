@@ -48,7 +48,7 @@ Inbox
           
           <img src="{{ url_for('static', filename='/images/avatars/' + other.profile.picture) }}" alt="pic" class="chat-pics mx-2">
           <div>
-            <div>
+            <div class="{% if other.status != 'active' %} deleted-name {% endif %}">
                 {{ other.profile.displayname }}
             </div>
             <div class="head-un">
