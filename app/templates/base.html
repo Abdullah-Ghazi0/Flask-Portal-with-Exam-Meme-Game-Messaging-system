@@ -45,6 +45,11 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('user.profile') }}"><img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" class="nav-profile">Profile</a>
         </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Feedback
+          </button>
+        </li>
         {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('auth.reg') }}">Register</a>
@@ -59,6 +64,82 @@
   </div>
 </nav>
 <br>
+<!-- Feedbacks -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Feedback</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Report a Bug</button><br> <br>
+        <button class="btn btn-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal">Request a Feature</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bug report -->
+
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Report a Bug</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('support.feedback') }}" method="POST">
+          <div class="mb-3">
+            <label for="bugName" class="col-form-label">Title:</label>
+            <input type="text" class="form-control" name="bugName" id="bugName" placeholder="What bug are you facing?" required>
+          </div>
+          <div class="mb-3">
+            <label for="bugDescription" class="col-form-label">Description:</label>
+            <textarea class="form-control" name="bugDescription" id="bugDescription" required placeholder="Describe the bug your facing..."></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Request a Feature -->
+
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel3">Request a Feature</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('support.feedback') }}" method="POST">
+          <div class="mb-3">
+            <label for="featureName" class="col-form-label">Title:</label>
+            <input type="text" class="form-control" name="featureName" id="featureName" placeholder="What Feature do you want?" required>
+          </div>
+          <div class="mb-3">
+            <label for="featureDescription" class="col-form-label">Description:</label>
+            <textarea class="form-control" name="featureDescription" id="featureDescription" placeholder="Please Describe the Feature you want.." required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
     {% block content %} {% endblock %}
 
     {% block scripts %} {% endblock %}
