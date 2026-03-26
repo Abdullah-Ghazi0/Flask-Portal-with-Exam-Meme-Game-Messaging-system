@@ -100,9 +100,9 @@
     }
 
     .bio{
-        width: 85%;
-        margin-left: 5%;
-        margin-top: -105px;
+        width: 90%;
+        margin-left: 3%;
+        margin-top: -5px;
     }
   
     .setting-box {
@@ -121,18 +121,17 @@
         margin-right: 5px;  
     }
 
-    .exam-box {
-        margin-top: 50px;
+    .butn-box {
+        margin-top: 25px;
         padding-right: 0;
         margin-left: 0px;
     }
 
-    .exam-button {
+    .profile-button {
         margin-bottom: 10px;
-    }
-
-    .exam-box .btn{
-    margin-bottom:8px;
+        width: 45%;
+        height: 40px;
+        padding-top: 7px;
     }
 
     /* meme page */

@@ -39,24 +39,28 @@ Inbox
     </div>
 
     <div id="chat" class="col-md chat-box">
-      {% if all_msg %}
+      {% if other %}
         
         <div class="head-name">
           <a href="{{ url_for('message.inbox') }}#">
             <i class="bi bi-box-arrow-left back-but"></i>
           </a>
-          
+          <a href="{{ url_for('social.view_profile', username=other.username) }}" class="profile-head">
           <img src="{{ url_for('static', filename='/images/avatars/' + other.profile.picture) }}" alt="pic" class="chat-pics mx-2">
-          <div>
+          <div class="mx-2">
             <div class="{% if other.status != 'active' %} deleted-name {% endif %}">
                 {{ other.profile.displayname }}
+                {% if other.profile.verified == True %}  
+                  <i class="bi bi-patch-check-fill verified-badge small-badge"></i>
+                {% endif %}
             </div>
             <div class="head-un">
               {% if other.status == 'active' %}
                 @{{ other.username }}
               {% endif %}
             </div>
-          </div> 
+          </div>
+          </a> 
         </div>
         
           <div class="msg-scroll" id="scrollbox">
@@ -90,7 +94,7 @@ Inbox
         <div>
           <form action="{{ url_for('message.new_msg') }}#chat" method="POST">
             <input type="hidden" name="his_id" value="{{ other.id }}">
-            <input type="text" name="newMsg" placeholder="Type a message" class="msg-input" autocomplete="off">
+            <input type="text" name="newMsg" placeholder="Type a message" class="msg-input" autocomplete="off" autofocus>
             <button type="submit" class="send-button">Send</button>
           </form>
         </div>

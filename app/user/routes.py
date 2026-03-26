@@ -21,7 +21,7 @@ def profile():
     if user.username == "admin":
         return redirect(url_for('admin.panel'))
 
-    return render_template("user/profile.html", user=user)
+    return redirect(url_for('social.view_profile', username=user.username))
     
     
 

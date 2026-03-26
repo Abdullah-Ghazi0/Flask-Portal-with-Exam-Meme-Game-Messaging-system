@@ -89,6 +89,13 @@ html, body {
     color: rgb(180, 180, 180);
 }
 
+.profile-head {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: row;
+}
+
 .button_styler {
     border: #ffffff;
     background-color: #202529;
@@ -441,7 +448,7 @@ html, body {
 .names {
     margin-top: 30px;
     text-align: start;
-    padding-left: 60px;
+    padding-left: 20px;
     /* margin-left: 30px; */
 }
 
@@ -453,6 +460,10 @@ html, body {
     color:#1DA1F2;
     font-size:20px;
     margin-left:5px;
+}
+
+.small-badge {
+    font-size: 17px;
 }
 
 .stats {
@@ -476,8 +487,8 @@ html, body {
 .bio {
     min-width: 0;
     width: 50%;
-    margin-top: -35px;
-    margin-left: 215px;
+    margin-top: -55px;
+    margin-left: 260px;
     font-weight: 400;
     white-space: pre-line;
     text-align: start;
@@ -506,14 +517,35 @@ html, body {
     
 }
 
-.exam-box {
-    margin-top: 70px;
+.butn-box {
+    margin-top: 30px;
 }
 
-.exam-button {
-    width: 170px;
+.profile-button {
+    width: 270px;
+    height: 45px;
     margin-left: 5px;
     margin-right: 5px;
+    background-color: #4a5df9;
+    color: white;
+    border-radius: 10px;
+    align-items: center;
+    padding-top: 9px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.profile-button:hover {
+    background-color: #3a51fd;
+    color: white;
+}
+
+.butn-inv {
+    background-color: #64696d;
+}
+
+.butn-inv:hover {
+    background-color: #565a5e;
 }
 
 .sett {

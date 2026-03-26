@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Page not Found!
+{% endblock %}
+
+{% block content %}
+
+
+    <br><br><br><br><br>
+    <div class="d-flex justify-content-center">
+        <div>
+            The page you are trying to access, doesn't exist!
+            <br>
+            <a href="{{ url_for('home') }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Go back to home page</a>
+        </div>
+    </div>
+
+{% endblock %}

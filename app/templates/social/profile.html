@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% block title %}
-Profile
+{{ user.profile.displayname }}
 {% endblock %}
 
 {% block content %}
@@ -21,8 +21,8 @@ Profile
 {% endwith %}
 
   <div class="row align-items-start">
-    <div class="col-md-2 col-4">
-      <img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" alt="profile picture" class="profile-pic">
+    <div class="col-md-3 col-4">
+      <img src="{{ url_for('static', filename='images/avatars/' + user.profile.picture) }}" alt="profile picture" class="profile-pic">
     </div>
     <div class="col-md-4 col-6 names">
       <h3 class="small-name"><b>{{ user.profile.displayname }}</b>
@@ -32,7 +32,7 @@ Profile
         <h5>@{{ user.username }}</h5>
     </div>
 
-    <div class="col-md-3 col stats">
+    <div class="col-md-4 col stats">
       <div class="d-flex justify-content-between">
           <span class="each-stat">999k Posts</span>
           <span class="each-stat">999K Followers</span>
@@ -41,15 +41,9 @@ Profile
 
     </div>
       
-    <div class="col-md-3 col setting-box">
-        <a href="{{ url_for('user.setting') }}" class="btn btn-secondary setting-style"><i class="bi bi-gear-fill sett"></i>Settings</a>
-        <form action="{{ url_for('auth.logout') }}" method="POST">
-          <button type="submit" class="btn btn-secondary btn-sm" style="margin-top: 2px;">Logout</button>
-        </form>
-    </div>
   </div>
   <div class="row">
-    <div class="col-8">
+    <div class="col-md-8 col-12">
       <div class="bio">
         {%- if user.profile.bio %}
           {{ user.profile.bio }}
@@ -60,12 +54,26 @@ Profile
       </div>
     </div>
   </div>
-  <div class="row justify-content-center exam-box">
-      <div class="col-8">
-          <a href="{{ url_for('exam.exam') }}" class="btn btn-info exam-button">Start Exam</a>
-          <a href="{{ url_for('exam.result') }}"" class="btn btn-success exam-button">View Result</a>
+  <div class="row justify-content-center butn-box">
+      <div class="col-md-8 col px-0">
+        {% if user.id == session['user_id'] %}
+          <a href="{{ url_for('user.setting') }}" class="btn btn-secondary profile-button butn-inv">Edit Profile</a>
+          <a href="{{ url_for('exam.result') }}" class="btn btn-primary profile-button">View Stats</a>
+        {% else %}
+          <a href="" class="btn btn-primary profile-button">Follow</a>
+          <a href="{{ url_for('message.chats', others_id=user.id) }}#chat" class="btn btn-secondary profile-button butn-inv">Message</a>
+        {% endif %}
       </div>
   </div>
+  <br>
+  {% if user.id == session['user_id'] %}
+  <div class="col setting-box">
+        <!-- <a href="{{ url_for('user.setting') }}" class="btn btn-secondary setting-style"><i class="bi bi-gear-fill sett"></i>Settings</a> -->
+        <form action="{{ url_for('auth.logout') }}" method="POST">
+          <button type="submit" class="btn btn-secondary btn-sm" style="margin-top: 2px;">Logout</button>
+        </form>
+  </div>
+  {% endif %}
 </div>
 
 

@@ -61,5 +61,6 @@ This is a beginner project and may contain bugs<br>
 
 ## Upcoming Features
 
-- View Others Profile
+- Reports and feedback
+- Follow Feature
 - Live Chat with JS
