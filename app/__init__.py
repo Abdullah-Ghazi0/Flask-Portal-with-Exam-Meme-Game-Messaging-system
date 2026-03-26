@@ -31,6 +31,7 @@ def create_app():
     from .user import user_bp
     from .admin import admin_bp
     from .social import social_bp
+    from .support import support_bp
 
     app.register_blueprint(meme_bp)
     app.register_blueprint(exam_bp)
@@ -40,6 +41,7 @@ def create_app():
     app.register_blueprint(user_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(social_bp)
+    app.register_blueprint(support_bp)
 
     @app.errorhandler(RequestEntityTooLarge)
     def handle_file_too_large(e):
