@@ -50,6 +50,11 @@
             Feedback
           </button>
         </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalR">
+            Report
+          </button>
+        </li>
         {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('auth.reg') }}">Register</a>
@@ -96,7 +101,7 @@
         <form action="{{ url_for('support.feedback') }}" method="POST">
           <div class="mb-3">
             <label for="bugName" class="col-form-label">Title:</label>
-            <input type="text" class="form-control" name="bugName" id="bugName" placeholder="What bug are you facing?" required>
+            <input type="text" class="form-control" name="bugName" id="bugName" placeholder="What bug are you facing?" required autocomplete="off">
           </div>
           <div class="mb-3">
             <label for="bugDescription" class="col-form-label">Description:</label>
@@ -104,7 +109,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
       </div>
@@ -125,7 +130,7 @@
         <form action="{{ url_for('support.feedback') }}" method="POST">
           <div class="mb-3">
             <label for="featureName" class="col-form-label">Title:</label>
-            <input type="text" class="form-control" name="featureName" id="featureName" placeholder="What Feature do you want?" required>
+            <input type="text" class="form-control" name="featureName" id="featureName" placeholder="What Feature do you want?" required autocomplete="off">
           </div>
           <div class="mb-3">
             <label for="featureDescription" class="col-form-label">Description:</label>
@@ -133,11 +138,56 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Report user -->
+
+<div class="modal fade" id="exampleModalR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Report</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-start">
+        <form action="{{ url_for('support.report') }}" method="POST">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="catagory" id="radioDefault1" value="spam" required>
+            <label class="form-check-label" for="radioDefault1">Spam</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="catagory" id="radioDefault2" value="abuse">
+            <label class="form-check-label" for="radioDefault2">Abuse</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="catagory" id="radioDefault3" value="inappropriateContent">
+            <label class="form-check-label" for="radioDefault3">Inappropriate Content</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="catagory" id="radioDefault4" value="other">
+            <label class="form-check-label" for="radioDefault4">Other</label>
+          </div>
+          <div class="mb-3">
+            <label for="userName" class="col-form-label">Username:</label>
+            <input type="text" class="form-control" name="userName" id="userName" placeholder="User you want to report" required autocomplete="off">
+          </div>
+          <div class="mb-3">
+            <label for="reportDescription" class="col-form-label">Description:</label>
+            <textarea class="form-control" name="reportDescription" id="reportDescription" placeholder="Please describe the violation.."></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>reason
   </div>
 </div>
     {% block content %} {% endblock %}
@@ -145,4 +195,5 @@
     {% block scripts %} {% endblock %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-</html>
+    <script></script>
+    </html>

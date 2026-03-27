@@ -9,7 +9,7 @@ class Reports(db.Model):
     target_id = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
-    status = db.Column(db.String, nullable=False)
+    status = db.Column(db.String, nullable=False, default='pending')
 
 
 class Feedbacks(db.Model):
