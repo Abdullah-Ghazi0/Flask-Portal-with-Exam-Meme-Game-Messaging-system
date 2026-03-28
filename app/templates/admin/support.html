@@ -1,0 +1,90 @@
+{% extends 'base.html'%}
+{% block title %}
+Support
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <br>
+    <ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+        <a class="nav-link {% if request.view_args.tab == 'report' %} active {% endif %}" href="{{ url_for('admin.user_support', tab='report') }}">Reports</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.view_args.tab == 'feedback' %} active {% endif %}" href="{{ url_for('admin.user_support', tab='feedback') }}">Feedback</a>
+    </li>
+    </ul>
+    <br><br>
+    {% if request.view_args.tab == 'report' %}
+    <form action="{{ url_for('admin.user_support', tab='report') }}" method="GET" class="text-end">
+        <label for="filter">Filter: </label>
+        <select name="filter" id="filter">
+            <option value="">Pending</option>
+            <option value="all">All</option>
+        </select>
+        <button type="submit" class="btn btn-success btn-sm">Apply</button>
+    </form>
+    {% endif %}
+    <br>
+    <table class="table table-striped table-hover">
+        <thead>
+            <th>#</th>
+            <th>Category</th>
+            <th>From</th>
+            {% if request.view_args.tab == 'feedback' %}
+            <th>Title</th>
+            <th>Description</th>
+            {% else %}
+            <th>Target Type</th>
+            <th>Target</th>
+            <th>Description</th>
+            <th>Action</th>
+            <th>Status</th>
+            {% endif %}
+        </thead>
+        <tbody>
+            {% if request.view_args.tab == 'feedback' %}
+                {% for item, sender in list_of_items %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.catagory }}</td>
+                        <td>{{ sender.username }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.description }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for item in list_of_items %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.catagory }}</td>
+                        <td>{{ item.reporter_id }}</td>
+                        <td>{{ item.target_type }}</td>
+                        <td>{{ item.target_id }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>Ban</td>
+                        <td>{{ item.status }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+{% endblock %}

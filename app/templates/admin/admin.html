@@ -28,6 +28,8 @@ Admin
 
 <a href="{{ url_for('admin.manage_user') }}" class="btn btn-success exam-button">User Management</a>
 
+<a href="{{ url_for('admin.user_support', tab='report') }}" class="btn btn-success exam-button">Support</a>
+
 <a href="{{ url_for('user.setting') }}" class="btn btn-secondary"><i class="bi bi-gear-fill sett"></i>Setting</a>
 <br><br><br>
 <form action="{{ url_for('auth.logout') }}" method="POST">

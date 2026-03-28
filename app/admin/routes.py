@@ -1,7 +1,7 @@
 import os
 from datetime import datetime, timezone
 from flask import render_template, flash, redirect, url_for, request, session, current_app
-from ..models import db, Questions, Users, Words
+from ..models import db, Questions, Users, Words, Feedbacks, Reports
 from .utils import find_known_char, banUser
 from . import admin_bp
 
@@ -107,6 +107,34 @@ def manage_user():
                 return redirect(url_for('admin.manage_user'))
 
         return render_template("admin/manage_user.html")
+    
+    flash("You are not allowed access this page!", 'danger')
+    return redirect(url_for('home'))
+
+
+@admin_bp.route("/support/<tab>")
+def user_support(tab):
+    if "user_id" not in session:
+        flash("You need to login first!", 'danger')
+        return redirect(url_for("auth.login"))
+    
+    user = Users.query.get(session.get("user_id"))
+    if user.username == "admin":
+
+        if tab not in ['report', 'feedback']:
+            return render_template('page_not_found.html')
+        
+        if tab == 'feedback':
+            list_of_items = Feedbacks.query.join(Users, Feedbacks.sender_id == Users.id).add_entity(Users).all()
+
+        if tab == 'report':
+            if request.args.get('filter') == 'all':
+                list_of_items = Reports.query.all()
+            else:
+                list_of_items = Reports.query.filter_by(status='pending').all()
+
+
+        return render_template("admin/support.html", list_of_items=list_of_items)
     
     flash("You are not allowed access this page!", 'danger')
     return redirect(url_for('home'))
