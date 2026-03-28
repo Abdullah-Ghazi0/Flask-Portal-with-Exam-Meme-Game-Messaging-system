@@ -22,7 +22,8 @@
 <h4>Ban User</h4>
 <form action="{{ url_for('admin.manage_user') }}" method="POST" onsubmit="return confirm('Are you Sure? This will permanently Ban the User!');">
   <label for="userToBan">Username:</label>
-  <input type="text" name="userToBan" placeholder="Enter User to Ban" required>
+  <input type="text" name="userToBan" placeholder="Enter User to Ban" {% if banThisUser %} value="{{ banThisUser[0] }}" {% endif %} required>
+  <input type="hidden" name="report" value="{{ banThisUser[1] }}">
   <button type="submit" class="btn btn-primary">Ban</button>
 </form>
 <br><br>

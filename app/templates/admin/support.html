@@ -67,15 +67,25 @@ Support
                     </tr>
                 {% endfor %}
             {% else %}
-                {% for item in list_of_items %}
+                {% for item, reported in list_of_items %}
                     <tr>
                         <td>{{ item.id }}</td>
                         <td>{{ item.catagory }}</td>
                         <td>{{ item.reporter_id }}</td>
                         <td>{{ item.target_type }}</td>
-                        <td>{{ item.target_id }}</td>
+                        <td><a href="{{ url_for('social.view_profile', username=reported.username) }}" target="_blank">{{ reported.username }}</a></td> 
                         <td>{{ item.description }}</td>
-                        <td>Ban</td>
+                        <td>
+                            {% if item.status == 'pending' %}
+                            <a href="{{ url_for('admin.manage_user', usertoban=reported.username, report_id=item.id) }}" target="_blank" class="btn btn-sm">Ban /</a>
+                            <form action="{{ url_for('admin.dismissReport') }}" method="POST" class="d-inline">
+                                <input type="hidden" name="report_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm">Dismiss</button> 
+                            </form>
+                            {% else %}
+                            No Action
+                            {% endif %}
+                        </td> 
                         <td>{{ item.status }}</td>
                     </tr>
                 {% endfor %}

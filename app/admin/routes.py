@@ -84,6 +84,13 @@ def manage_user():
         return redirect(url_for("auth.login"))
     
     user = Users.query.get(session.get("user_id"))
+
+    # optional autofill username
+    banFromReport = request.args.get('usertoban')
+    report_id = request.args.get('report_id')
+
+    print(banFromReport, report_id)
+
     if user.username == "admin":
         if request.method == "POST":
 
@@ -94,6 +101,12 @@ def manage_user():
 
             if userToActOn:
                 if request.form.get("userToBan"):
+                    report_id = request.form.get("report")
+                    if report_id:
+                        report = Reports.query.get(report_id)
+                        report.status = 'resolved'
+                        db.session.commit()
+
                     banUser(userToActOn)
                 else:
                     userToActOn.profile.verified = verification
@@ -106,13 +119,13 @@ def manage_user():
                 flash("User Not Found!", 'danger')
                 return redirect(url_for('admin.manage_user'))
 
-        return render_template("admin/manage_user.html")
+        return render_template("admin/manage_user.html", banThisUser=[banFromReport, report_id])
     
     flash("You are not allowed access this page!", 'danger')
     return redirect(url_for('home'))
 
 
-@admin_bp.route("/support/<tab>")
+@admin_bp.route("/support/<tab>", methods=['GET', 'POST'])
 def user_support(tab):
     if "user_id" not in session:
         flash("You need to login first!", 'danger')
@@ -129,12 +142,23 @@ def user_support(tab):
 
         if tab == 'report':
             if request.args.get('filter') == 'all':
-                list_of_items = Reports.query.all()
+                list_of_items = Reports.query.join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user').execution_options(include_deleted=True).add_entity(Users).all()
             else:
-                list_of_items = Reports.query.filter_by(status='pending').all()
+                list_of_items = Reports.query.join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user', Reports.status == 'pending').add_entity(Users).all()
 
 
         return render_template("admin/support.html", list_of_items=list_of_items)
     
     flash("You are not allowed access this page!", 'danger')
     return redirect(url_for('home'))
+
+@admin_bp.route("report/dismiss", methods=["POST"])
+def dismissReport():
+    report_id = request.form.get("report_id")
+
+    report = Reports.query.get(report_id)
+    report.status = 'dismissed'
+    
+    db.session.commit()
+    return redirect(url_for('admin.user_support', tab='report'))
+
