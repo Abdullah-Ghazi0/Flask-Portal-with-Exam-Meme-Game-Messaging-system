@@ -71,7 +71,7 @@ Support
                     <tr>
                         <td>{{ item.id }}</td>
                         <td>{{ item.catagory }}</td>
-                        <td>{{ item.reporter_id }}</td>
+                        <td>{{ item.reporter.username }}</td>
                         <td>{{ item.target_type }}</td>
                         <td><a href="{{ url_for('social.view_profile', username=reported.username) }}" target="_blank">{{ reported.username }}</a></td> 
                         <td>{{ item.description }}</td>

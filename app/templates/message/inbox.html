@@ -17,7 +17,7 @@ Inbox
         </form>
       </div>
       <div class="chat-list">
-        {% for user in chats_list %}
+        {% for user in chats_list or [] %}
         <a class="link-color  {% if request.endpoint == 'message.chats' and request.view_args.others_id == chats_list[user]['id'] %} active {% endif %}" href="{{ url_for('message.chats', others_id=chats_list[user]['id']) }}#chat">
           <img src="{{ url_for('static', filename='images/avatars/' + chats_list[user]['pic']) }}" alt="img" class="chat-pics">
           <div class="tabs-style">

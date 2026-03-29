@@ -1,6 +1,7 @@
 import os
 from datetime import datetime, timezone
 from flask import render_template, flash, redirect, url_for, request, session, current_app
+from sqlalchemy.orm import joinedload
 from ..models import db, Questions, Users, Words, Feedbacks, Reports
 from .utils import find_known_char, banUser
 from . import admin_bp
@@ -89,8 +90,6 @@ def manage_user():
     banFromReport = request.args.get('usertoban')
     report_id = request.args.get('report_id')
 
-    print(banFromReport, report_id)
-
     if user.username == "admin":
         if request.method == "POST":
 
@@ -142,9 +141,13 @@ def user_support(tab):
 
         if tab == 'report':
             if request.args.get('filter') == 'all':
-                list_of_items = Reports.query.join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user').execution_options(include_deleted=True).add_entity(Users).all()
+                list_of_items = Reports.query.options(joinedload(Reports.reporter)
+                                                      ).join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user'
+                                                      ).execution_options(include_deleted=True).add_entity(Users).all()
             else:
-                list_of_items = Reports.query.join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user', Reports.status == 'pending').add_entity(Users).all()
+                list_of_items = Reports.query.options(joinedload(Reports.reporter)
+                                                      ).join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user', Reports.status == 'pending'
+                                                      ).add_entity(Users).all()
 
 
         return render_template("admin/support.html", list_of_items=list_of_items)

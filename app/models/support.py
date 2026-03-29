@@ -10,6 +10,8 @@ class Reports(db.Model):
     description = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
     status = db.Column(db.String, nullable=False, default='pending')
+    
+    reporter = db.relationship('Users', foreign_keys=[reporter_id])
 
 
 class Feedbacks(db.Model):
