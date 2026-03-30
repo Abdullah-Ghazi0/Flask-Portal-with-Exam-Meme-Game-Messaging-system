@@ -548,6 +548,10 @@ html, body {
     background-color: #565a5e;
 }
 
+.follow-btn {
+    padding-top: 6px;
+}
+
 .sett {
     margin-right: 5px;
 }

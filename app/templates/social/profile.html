@@ -34,9 +34,9 @@
 
     <div class="col-md-4 col stats">
       <div class="d-flex justify-content-between">
-          <span class="each-stat">999k Posts</span>
-          <span class="each-stat">999K Followers</span>
-          <span class="each-stat">999K Following</span>
+          <span class="each-stat">0 Posts</span>
+          <span class="each-stat">{{ user.followers }} Followers</span>
+          <span class="each-stat">{{ user.following }} Following</span>
       </div>
 
     </div>
@@ -60,7 +60,17 @@
           <a href="{{ url_for('user.setting') }}" class="btn btn-secondary profile-button butn-inv">Edit Profile</a>
           <a href="{{ url_for('exam.result') }}" class="btn btn-primary profile-button">View Stats</a>
         {% else %}
-          <a href="" class="btn btn-primary profile-button">Follow</a>
+          {% if user.followStatus %}
+            <form action="{{ url_for('social.unFollow') }}" method="POST" class="d-inline">
+              <input type="hidden" name="followed_id" value="{{ user.id }}">
+              <button type="submit" class="btn btn-secondary profile-button follow-btn butn-inv">Unfollow</button>
+            </form>
+          {% else %}
+          <form action="{{ url_for('social.follow') }}" method="POST" class="d-inline">
+            <input type="hidden" name="followed_id" value="{{ user.id }}">
+            <button type="submit" class="btn btn-primary profile-button follow-btn">Follow</button>
+          </form>
+          {% endif %}
           <a href="{{ url_for('message.chats', others_id=user.id) }}#chat" class="btn btn-secondary profile-button butn-inv">Message</a>
         {% endif %}
       </div>

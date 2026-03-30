@@ -8,6 +8,7 @@ from .messages import Messages
 from .exam import Questions, Results
 from .game import Words
 from .support import Reports, Feedbacks
+from .social import Follows
 
 
 @event.listens_for(db.session, "do_orm_execute")
