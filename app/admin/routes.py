@@ -133,13 +133,15 @@ def user_support(tab):
     user = Users.query.get(session.get("user_id"))
     if user.username == "admin":
 
+        page = request.args.get("page" ,1 , type=int)
+
         query = Reports.query
 
         if tab not in ['report', 'feedback']:
             return render_template('page_not_found.html')
         
         if tab == 'feedback':
-            list_of_items = Feedbacks.query.join(Users, Feedbacks.sender_id == Users.id).add_entity(Users).all()
+            list_of_items = Feedbacks.query.join(Users, Feedbacks.sender_id == Users.id).add_entity(Users).paginate(page=page, per_page=10)
 
         if tab == 'report':
             if request.args.get('filter') == 'all':
@@ -152,26 +154,29 @@ def user_support(tab):
                                 )
 
             if request.args.get('sort') == 'time':
-                list_of_items = query.add_entity(Users).all()
+                list_of_items = query.add_entity(Users).paginate(page=page, per_page=10)
 
             else:
-                list_of_items = query.order_by(priority, Reports.created_at.desc()).add_entity(Users).all()
+                list_of_items = query.order_by(priority, Reports.created_at.desc()).add_entity(Users).paginate(page=page, per_page=10)
 
-        options = {'filter': 'all' if request.args.get('filter') == 'all' else 'pending',
-                   'sort' : 'time' if request.args.get('sort') == 'time' else 'risk'
-                   }
-        return render_template("admin/support.html", list_of_items=list_of_items, options=options)
+        args = request.args.to_dict()
+        args.pop('page') if args.get('page') else None
+        args['tab'] = tab
+        return render_template("admin/support.html", list_of_items=list_of_items, args=args)
     
     flash("You are not allowed access this page!", 'danger')
     return redirect(url_for('home'))
+
 
 @admin_bp.route("report/dismiss", methods=["POST"])
 def dismissReport():
     report_id = request.form.get("report_id")
 
+    args = request.args.to_dict()
+
     report = Reports.query.get(report_id)
     report.status = 'dismissed'
     
     db.session.commit()
-    return redirect(url_for('admin.user_support', tab='report'))
+    return redirect(url_for('admin.user_support', **args))
 
