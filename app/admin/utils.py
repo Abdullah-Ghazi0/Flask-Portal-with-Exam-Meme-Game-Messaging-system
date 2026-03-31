@@ -1,7 +1,8 @@
 import os
 from datetime import datetime, timezone
 from flask import redirect, url_for, flash
-from ..models import db
+from sqlalchemy import case
+from ..models import db, Reports
 
 def find_known_char(word):
     word_len = len(word)
@@ -26,3 +27,11 @@ def banUser(userToActOn):
     db.session.commit()
     flash("User Banned successfully!", 'success')
     return redirect(url_for('admin.manage_user'))
+
+
+priority = case(
+    (Reports.catagory == "abuse" , 1),
+    (Reports.catagory == "inappropriateContent" , 2),
+    (Reports.catagory == "spam" , 3),
+    else_=4
+)

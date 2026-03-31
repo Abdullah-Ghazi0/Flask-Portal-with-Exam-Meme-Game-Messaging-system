@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from flask import render_template, flash, redirect, url_for, request, session, current_app
 from sqlalchemy.orm import joinedload
 from ..models import db, Questions, Users, Words, Feedbacks, Reports
-from .utils import find_known_char, banUser
+from .utils import find_known_char, banUser, priority
 from . import admin_bp
 
 
@@ -133,6 +133,8 @@ def user_support(tab):
     user = Users.query.get(session.get("user_id"))
     if user.username == "admin":
 
+        query = Reports.query
+
         if tab not in ['report', 'feedback']:
             return render_template('page_not_found.html')
         
@@ -141,16 +143,24 @@ def user_support(tab):
 
         if tab == 'report':
             if request.args.get('filter') == 'all':
-                list_of_items = Reports.query.options(joinedload(Reports.reporter)
-                                                      ).join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user'
-                                                      ).execution_options(include_deleted=True).add_entity(Users).all()
+                query = query.options(joinedload(Reports.reporter)
+                                ).join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user'
+                                ).execution_options(include_deleted=True)
             else:
-                list_of_items = Reports.query.options(joinedload(Reports.reporter)
-                                                      ).join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user', Reports.status == 'pending'
-                                                      ).add_entity(Users).all()
+                query = query.options(joinedload(Reports.reporter)
+                                ).join(Users, Reports.target_id == Users.id).filter(Reports.target_type == 'user', Reports.status == 'pending'
+                                )
 
+            if request.args.get('sort') == 'time':
+                list_of_items = query.add_entity(Users).all()
 
-        return render_template("admin/support.html", list_of_items=list_of_items)
+            else:
+                list_of_items = query.order_by(priority, Reports.created_at.desc()).add_entity(Users).all()
+
+        options = {'filter': 'all' if request.args.get('filter') == 'all' else 'pending',
+                   'sort' : 'time' if request.args.get('sort') == 'time' else 'risk'
+                   }
+        return render_template("admin/support.html", list_of_items=list_of_items, options=options)
     
     flash("You are not allowed access this page!", 'danger')
     return redirect(url_for('home'))
