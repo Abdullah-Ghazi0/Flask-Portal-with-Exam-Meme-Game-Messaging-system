@@ -5,6 +5,22 @@
 
 {% block content %}
 
+{% if followList %}
+
+  <div class="custom-modal-overlay">
+    <div class="custom-modal">
+      <a href="{{ url_for('social.view_profile', username=user.username) }}" class="close-btn">&times;</a>
+      <div class="modal-head">
+        <h4 style="margin-left: 15px;"> {{ user.followInfo }}  </h4>
+      </div>
+      {% for follow in followList %}
+        <div class="modal-item">{{ follow.follower.profile.displayname }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endif %}
+
 <div class="container profile-box">
 
 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -35,8 +51,8 @@
     <div class="col-md-4 col stats">
       <div class="d-flex justify-content-between">
           <span class="each-stat">0 Posts</span>
-          <span class="each-stat">{{ user.followers }} Followers</span>
-          <span class="each-stat">{{ user.following }} Following</span>
+          <a href="{{ url_for('social.view_profile_follows', username=user.username, follow='followers') }}" class="stat-link"><span class="each-stat">{{ user.followers }} Followers</span></a> 
+          <a href="{{ url_for('social.view_profile_follows', username=user.username, follow='following') }}" class="stat-link"><span class="each-stat">{{ user.following }} Following</span></a>
       </div>
 
     </div>
@@ -85,6 +101,8 @@
   </div>
   {% endif %}
 </div>
+
+
 
 
 {% endblock %}

@@ -481,7 +481,13 @@ html, body {
 
 .each-stat:hover {
     background-color: #f0f2f5;
-    cursor: default;
+}
+
+.stat-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline;
+    margin-top: 9px;
 }
 
 .bio {
@@ -618,4 +624,53 @@ html, body {
     font-style: italic;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.custom-modal-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.custom-modal {
+    background-color: white;
+    height: 420px;
+    width: 600px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.modal-head {
+    height: 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+    text-decoration: none;
+    float: right;
+    position: relative;
+    top: -14px;
+    right: 5px;
+    font-size: 35px;
+    color: rgba(0, 0, 0, 0.589);
+
+}
+.modals-body {
+    padding: 5px;
+    background-color: pink;
+
+}
+
+.modal-item {
+    height: 60px;
+    background: pink;
+}
+
 

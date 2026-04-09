@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, url_for, session, flash
+from sqlalchemy.orm import joinedload
 from ..models import db, Users, Follows
 from . import social_bp
 
@@ -63,3 +64,34 @@ def unFollow():
         db.session.commit()
 
     return redirect(request.referrer)
+
+
+@social_bp.route("/u/<username>/<follow>")
+def view_profile_follows(username, follow):
+    if "user_id" not in session:
+        flash("You need to login first!", 'danger')
+        return redirect(url_for("auth.login"))
+    
+    user = Users.query.filter_by(username=username).first()
+    if not user:
+        return render_template("page_not_found.html")
+    
+    followORnot = Follows.query.filter_by(follower_id=session.get('user_id'), followed_id=user.id).first() is not None
+    followers = Follows.query.filter_by(followed_id=user.id).count()
+    following = Follows.query.filter_by(follower_id=user.id).count()
+
+    user.followStatus = followORnot
+    user.followers = followers
+    user.following = following
+    user.followInfo = follow.capitalize()
+    
+    if follow == 'following':
+        followList = Follows.query.options(joinedload(Follows.followed)).filter_by(follower_id=user.id).all()
+
+    elif follow == 'followers':
+        followList  = Follows.query.options(joinedload(Follows.follower)).filter_by(followed_id=user.id).all()
+    
+    elif follow:
+        return render_template("page_not_found.html")
+
+    return render_template("social/profile.html", user=user, followList=followList)
