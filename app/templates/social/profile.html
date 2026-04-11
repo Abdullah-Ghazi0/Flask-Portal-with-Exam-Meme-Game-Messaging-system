@@ -7,14 +7,37 @@
 
 {% if followList %}
 
-  <div class="custom-modal-overlay">
-    <div class="custom-modal">
+  <div class="custom-modal-overlay" id="modal-back">
+    <div class="custom-modal" id="custom-modal">
       <a href="{{ url_for('social.view_profile', username=user.username) }}" class="close-btn">&times;</a>
       <div class="modal-head">
         <h4 style="margin-left: 15px;"> {{ user.followInfo }}  </h4>
       </div>
       {% for follow in followList %}
-        <div class="modal-item">{{ follow.follower.profile.displayname }}</div>
+
+      {% if user.followInfo == 'Followers' %}
+        {% set followUser = follow.follower %}
+      {% else %}
+        {% set followUser = follow.followed %}
+      {% endif %}
+
+        <div class="modal-item">
+          <a href="{{ url_for('social.view_profile', username=followUser.username) }}" class="follower-profile">
+            <div>
+              <img src="{{ url_for('static', filename='/images/avatars/' + followUser.profile.picture) }}" alt="pic" class="chat-pics">
+            </div>
+            <div class="follower-name">
+             <span class="follower-Dname"> {{ followUser.profile.displayname }} </span>
+             <span class="follower-Uname"> @{{ followUser.username }} </span>
+            </div>
+          </a>
+          <div>
+            <form action="" method="POST">
+              <input type="hidden" name="followed_id" value="{{ user.id }}">
+              <button type="submit" class="btn btn-secondary btn-sm butn-inv modal-follow-btn">Unfollow</button>
+            </form>
+          </div>
+        </div>
       {% endfor %}
     </div>
   </div>
@@ -84,7 +107,13 @@
           {% else %}
           <form action="{{ url_for('social.follow') }}" method="POST" class="d-inline">
             <input type="hidden" name="followed_id" value="{{ user.id }}">
-            <button type="submit" class="btn btn-primary profile-button follow-btn">Follow</button>
+            <button type="submit" class="btn btn-primary profile-button follow-btn">
+              {% if user.followBack %}
+              Follow Back
+              {% else %}
+              Follow
+              {% endif %}
+            </button>
           </form>
           {% endif %}
           <a href="{{ url_for('message.chats', others_id=user.id) }}#chat" class="btn btn-secondary profile-button butn-inv">Message</a>
@@ -104,5 +133,19 @@
 
 
 
+
+{% endblock %}
+
+{% block scripts %}
+
+  <script>
+    const modalBack = document.getElementById('modal-back');
+    const modal = document.getElementById("custom-modal");
+    modalBack.addEventListener("click", (e) => {
+      if (e.target == modalBack) {
+        window.location.href = "{{ url_for('social.view_profile', username=user.username) }}";
+      }
+    });
+  </script>
 
 {% endblock %}

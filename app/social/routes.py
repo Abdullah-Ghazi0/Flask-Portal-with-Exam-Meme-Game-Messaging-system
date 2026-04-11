@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, session, flash
-from sqlalchemy.orm import joinedload
-from ..models import db, Users, Follows
+from sqlalchemy.orm import selectinload, joinedload
+from ..models import db, Users, Follows, UserProfiles
 from . import social_bp
 
 @social_bp.route("/u/<username>")
@@ -10,12 +10,14 @@ def view_profile(username):
     if user:
 
         followORnot = Follows.query.filter_by(follower_id=session.get('user_id'), followed_id=user.id).first() is not None
+        followBack = Follows.query.filter_by(follower_id=user.id, followed_id=session.get('user_id')).first() is not None
         followers = Follows.query.filter_by(followed_id=user.id).count()
         following = Follows.query.filter_by(follower_id=user.id).count()
 
         user.followStatus = followORnot
         user.followers = followers
         user.following = following
+        user.followBack = followBack
 
         return render_template("social/profile.html", user=user)
     
@@ -86,10 +88,10 @@ def view_profile_follows(username, follow):
     user.followInfo = follow.capitalize()
     
     if follow == 'following':
-        followList = Follows.query.options(joinedload(Follows.followed)).filter_by(follower_id=user.id).all()
+        followList = Follows.query.options(joinedload(Follows.followed).joinedload(Users.profile)).filter_by(follower_id=user.id).all()
 
     elif follow == 'followers':
-        followList  = Follows.query.options(joinedload(Follows.follower)).filter_by(followed_id=user.id).all()
+        followList  = Follows.query.options(joinedload(Follows.follower).joinedload(Users.profile)).filter_by(followed_id=user.id).all()
     
     elif follow:
         return render_template("page_not_found.html")
