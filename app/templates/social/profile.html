@@ -28,7 +28,12 @@
               <img src="{{ url_for('static', filename='/images/avatars/' + followUser.profile.picture) }}" alt="pic" class="chat-pics">
             </div>
             <div class="follower-name">
-             <span class="follower-Dname"> {{ followUser.profile.displayname }} </span>
+             <span class="follower-Dname">
+              {{ followUser.profile.displayname }} 
+                {% if followUser.profile.verified == True %}  
+                  <i class="bi bi-patch-check-fill verified-badge follow-modal-badge"></i>
+                {% endif %}
+             </span>
              <span class="follower-Uname"> @{{ followUser.username }} </span>
             </div>
           </a>

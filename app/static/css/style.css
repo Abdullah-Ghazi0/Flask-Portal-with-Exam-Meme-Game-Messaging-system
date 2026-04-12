@@ -707,6 +707,12 @@ html, body {
     background-color: #3a51fd
 }
 
+.follow-modal-badge {
+    font-size: 14px;
+    margin-left: 0px;
+    align-items: center;
+}
+
 .butn-inv {
     background-color: #3a4c5a;
 }
