@@ -546,14 +546,6 @@ html, body {
     color: white;
 }
 
-.butn-inv {
-    background-color: #64696d;
-}
-
-.butn-inv:hover {
-    background-color: #565a5e;
-}
-
 .follow-btn {
     padding-top: 6px;
 }
@@ -645,6 +637,7 @@ html, body {
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 20px;
     padding: 10px;
+    padding-right: 4px;
 }
 
 .modal-head {
@@ -662,10 +655,11 @@ html, body {
     color: rgba(0, 0, 0, 0.589);
 
 }
-.modals-body {
-    padding: 5px;
-    background-color: pink;
-
+.modal-body {
+    height: 88%;
+    width: 100%;
+    overflow-y: auto;
+    padding-right: 6px;
 }
 
 .modal-item {
@@ -706,7 +700,18 @@ html, body {
 
 .modal-follow-btn {
     margin-right: 3px;
-
+    background-color: #4a5df9;
 }
 
+.modal-follow-btn:hover {
+    background-color: #3a51fd
+}
+
+.butn-inv {
+    background-color: #3a4c5a;
+}
+
+.butn-inv:hover {
+    background-color: #4b5661;
+}
 

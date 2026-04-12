@@ -13,6 +13,7 @@
       <div class="modal-head">
         <h4 style="margin-left: 15px;"> {{ user.followInfo }}  </h4>
       </div>
+      <div class="modal-body">
       {% for follow in followList %}
 
       {% if user.followInfo == 'Followers' %}
@@ -32,13 +33,22 @@
             </div>
           </a>
           <div>
-            <form action="" method="POST">
-              <input type="hidden" name="followed_id" value="{{ user.id }}">
-              <button type="submit" class="btn btn-secondary btn-sm butn-inv modal-follow-btn">Unfollow</button>
-            </form>
+            {% if not follow.btn == 'NoBtn' %}
+              <form action=" {% if follow.btn %} {{ url_for('social.unFollow') }} {% else %} {{ url_for('social.follow') }} {% endif %}" method="POST">
+                <input type="hidden" name="followed_id" value="{{ followUser.id }}">
+                <button type="submit" id="modal-follow-btn" class="btn btn-sm modal-follow-btn {% if follow.btn %} btn-secondary butn-inv {% else %} btn-primary {% endif %}">
+                  {% if follow.btn %}
+                  Unfollow
+                  {% else %}
+                  Follow
+                  {% endif %}
+                </button>
+              </form>
+            {% endif %}
           </div>
         </div>
       {% endfor %}
+      </div>
     </div>
   </div>
 
@@ -102,7 +112,7 @@
           {% if user.followStatus %}
             <form action="{{ url_for('social.unFollow') }}" method="POST" class="d-inline">
               <input type="hidden" name="followed_id" value="{{ user.id }}">
-              <button type="submit" class="btn btn-secondary profile-button follow-btn butn-inv">Unfollow</button>
+              <button type="submit" id="follow-btn" class="btn btn-secondary profile-button follow-btn butn-inv">Following</button>
             </form>
           {% else %}
           <form action="{{ url_for('social.follow') }}" method="POST" class="d-inline">
@@ -131,21 +141,31 @@
   {% endif %}
 </div>
 
-
-
-
 {% endblock %}
 
 {% block scripts %}
 
   <script>
     const modalBack = document.getElementById('modal-back');
-    const modal = document.getElementById("custom-modal");
-    modalBack.addEventListener("click", (e) => {
-      if (e.target == modalBack) {
-        window.location.href = "{{ url_for('social.view_profile', username=user.username) }}";
-      }
+
+    const profileFollowBtn = document.getElementById("follow-btn");
+    const modalFollowBtn = document.getElementById("modal-follow-btn");
+
+    if (modalBack) {
+      modalBack.addEventListener("click", (e) => {
+        if (e.target == modalBack) {
+          window.location.href = "{{ url_for('social.view_profile', username=user.username) }}";
+        }
+      });
+    };
+
+    profileFollowBtn.addEventListener("mouseenter", (e) => {
+      e.target.textContent = "Unfollow";
     });
+    profileFollowBtn.addEventListener("mouseleave", (e) => {
+      e.target.textContent = "Following";
+    });
+
   </script>
 
 {% endblock %}

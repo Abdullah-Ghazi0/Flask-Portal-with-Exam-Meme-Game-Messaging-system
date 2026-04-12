@@ -78,7 +78,9 @@ def view_profile_follows(username, follow):
     if not user:
         return render_template("page_not_found.html")
     
-    followORnot = Follows.query.filter_by(follower_id=session.get('user_id'), followed_id=user.id).first() is not None
+    currentUser_id = session.get('user_id')
+    
+    followORnot = Follows.query.filter_by(follower_id=currentUser_id, followed_id=user.id).first() is not None
     followers = Follows.query.filter_by(followed_id=user.id).count()
     following = Follows.query.filter_by(follower_id=user.id).count()
 
@@ -90,8 +92,24 @@ def view_profile_follows(username, follow):
     if follow == 'following':
         followList = Follows.query.options(joinedload(Follows.followed).joinedload(Users.profile)).filter_by(follower_id=user.id).all()
 
+        for follow in followList:
+            followbtn = Follows.query.filter(Follows.followed_id==follow.followed.id, Follows.follower_id==currentUser_id).first() is not None
+            
+            if follow.followed.id == currentUser_id:
+                follow.btn = "NoBtn"
+            else:
+                follow.btn = followbtn
+
     elif follow == 'followers':
         followList  = Follows.query.options(joinedload(Follows.follower).joinedload(Users.profile)).filter_by(followed_id=user.id).all()
+
+        for follow in followList:
+            followbtn = Follows.query.filter(Follows.followed_id==follow.follower.id, Follows.follower_id==currentUser_id).first() is not None
+
+            if follow.follower.id == currentUser_id:
+                follow.btn = "NoBtn"
+            else:
+                follow.btn = followbtn
     
     elif follow:
         return render_template("page_not_found.html")
