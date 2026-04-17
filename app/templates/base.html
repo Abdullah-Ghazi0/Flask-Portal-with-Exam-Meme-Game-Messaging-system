@@ -11,64 +11,48 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/media.css') }}">
 </head>
 <body style="text-align: center;">
-<nav class="navbar navbar-expand-sm navbar-dark nav-bar {% if 'user_id' not in session %} no-collapse {% endif %}">
-  <div class="container-fluid">
+  <div class="app">
+    
+    <header class="navbar">
+      <div class="nav-left">
+        <span class="logo">
+          <img class="logo-img" src="{{ url_for('static', filename='/images/logo.png') }}" alt="logo">
+        </span>
+      </div>
 
-    {% if 'user_id' in session %}
-    <button class="navbar-toggler ms-auto" type="button"
-      data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    {% endif %}
+      <div class="nav-center">
+        <div class="search-box">
+          <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"> <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /> </svg></span>
+          <input type="search" placeholder="Search..." id="search">
+        </div>
+      </div>
 
-    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-        </li>
-        {% if 'user_id' in session %}
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('meme.show_meme') }}">Memes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('game.game_play') }}">Hangman</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('message.inbox') }}">Inbox
-            {% if has_unread_msgs %}
-              <span class="notification-dot"></span>
-            {% endif %}
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('user.profile') }}"><img src="{{ url_for('static', filename='images/avatars/' + session['profile_picture']) }}" class="nav-profile">Profile</a>
-        </li>
-        <li class="nav-item">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Feedback
-          </button>
-        </li>
-        <li class="nav-item">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalR">
-            Report
-          </button>
-        </li>
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('auth.reg') }}">Register</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-        </li>
-        {% endif %}
-      </ul>
+      <div class="nav-right">
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+        <div class="dropdown" id="dropdown">
+          <a href="#">Dg</a>
+          <a href="#">ga</a>
+          <a href="#">Seghw</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+
+      <aside class="sidebar">
+        <a href="#">Dashboard</a>
+        <a href="#">Tasks</a>
+        <a href="#">Settings</a>
+      </aside>
+
+      <main class="content">
+        <div class="inner-content">
+          {% block content %} {% endblock %}
+        </div>
+      </main>
     </div>
-
   </div>
-</nav>
-<br>
+
 <!-- Feedbacks -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -190,7 +174,6 @@
     </div>
   </div>
 </div>
-    {% block content %} {% endblock %}
 
     {% block scripts %} {% endblock %}
 
