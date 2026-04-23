@@ -136,14 +136,7 @@
       </div>
   </div>
   <br>
-  {% if user.id == session['user_id'] %}
-  <div class="col setting-box">
-        <!-- <a href="{{ url_for('user.setting') }}" class="btn btn-secondary setting-style"><i class="bi bi-gear-fill sett"></i>Settings</a> -->
-        <form action="{{ url_for('auth.logout') }}" method="POST">
-          <button type="submit" class="btn btn-secondary btn-sm" style="margin-top: 2px;">Logout</button>
-        </form>
-  </div>
-  {% endif %}
+  <!-- <a href="{{ url_for('user.setting') }}" class="btn btn-secondary setting-style"><i class="bi bi-gear-fill sett"></i>Settings</a> -->
 </div>
 
 {% endblock %}

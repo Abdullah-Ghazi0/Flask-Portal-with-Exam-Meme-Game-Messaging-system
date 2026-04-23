@@ -62,4 +62,4 @@ This is a beginner project and may contain bugs<br>
 ## Upcoming Features
 
 - New UI
-- Live Chat with JS
+

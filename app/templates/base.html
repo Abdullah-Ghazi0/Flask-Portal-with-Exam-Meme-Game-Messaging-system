@@ -11,28 +11,38 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/media.css') }}">
 </head>
 <body style="text-align: center;">
+{% from 'icons.html' import search_icon, report_icon, feedback_icon, logout_icon %}
+
+
   <div class="app">
     
     <header class="navbar">
       <div class="nav-left">
         <span class="logo">
-          <img class="logo-img" src="{{ url_for('static', filename='/images/logo.png') }}" alt="logo">
+          <a href="{{ url_for('home') }}" class="d-inline">
+            <img class="logo-img" src="{{ url_for('static', filename='/images/logo.png') }}" alt="logo">
+          </a>
         </span>
       </div>
 
       <div class="nav-center">
-        <div class="search-box">
-          <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"> <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /> </svg></span>
-          <input type="search" placeholder="Search..." id="search">
-        </div>
+        <form action="" class="search-box">
+            <input type="search" placeholder="Search" id="search" autocomplete="off">
+            <button type="submit">{{ search_icon("btn-icon") | safe }}</button>
+        </form>
       </div>
 
       <div class="nav-right">
         <button id="menu-toggle" class="menu-toggle">☰</button>
         <div class="dropdown" id="dropdown">
-          <a href="#">Dg</a>
-          <a href="#">ga</a>
-          <a href="#">Seghw</a>
+          <!-- <a href="" data-bs-toggle="modal" data-bs-target="#exampleModalR" class="dropdown-links">{{ report_icon() }}Report</a>
+          <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" class="dropdown-links">{{ feedback_icon() }}Feedback</a> -->
+          <button data-bs-toggle="modal" data-bs-target="#exampleModalR" class="dropdown-links">{{ report_icon() }}Report</button>
+          <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="dropdown-links">{{ feedback_icon() }}Feedback</button>
+          <form action="{{ url_for('auth.logout') }}" method="POST" class="d-flex">
+            <button class="dropdown-links" style="border: none;">{{ logout_icon() }}Logout</button>
+          </form>
+          <!-- <a href="" class="dropdown-links">{{ logout_icon() }}Logout</a> -->
         </div>
       </div>
     </header>
@@ -178,4 +188,5 @@
     {% block scripts %} {% endblock %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     </html>
